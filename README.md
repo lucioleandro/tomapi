@@ -16,6 +16,8 @@
 
 - Check if is betterUse defaulSerial or generated serial version
 
+- Lembrar de tirar métodos de serviços não utilizados
+
 
 ## Outros
 
