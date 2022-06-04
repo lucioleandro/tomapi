@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Team implements Serializable {
+public class Role implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -17,16 +17,18 @@ public class Team implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotNull
   private UUID uuid;
 
   @NotNull
   private String name;
 
-  public Team(long id, UUID uuid, String name) {
+  @NotNull
+  private String description;
+
+  public Role(Long id, String name, String description) {
     this.id = id;
-    this.uuid = uuid;
     this.name = name;
+    this.description = description;
   }
 
   public Long getId() {
@@ -39,6 +41,10 @@ public class Team implements Serializable {
 
   public String getName() {
     return name;
+  }
+
+  public String getDescription() {
+    return description;
   }
 
 }
