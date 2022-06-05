@@ -40,6 +40,11 @@ public class Member implements Serializable {
     this.role = role;
   }
 
+  public Member(UUID uuid, String displayName) {
+    this.uuid = uuid;
+    this.displayName = displayName;
+  }
+
   public Integer getId() {
     return id;
   }

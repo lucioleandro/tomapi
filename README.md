@@ -32,6 +32,8 @@
 
 - Sobrescrever equals and hashcode <br><br>
 
+- Verificar se preciso colocar @transaction nos métodos
+
 
 ## Outros
 

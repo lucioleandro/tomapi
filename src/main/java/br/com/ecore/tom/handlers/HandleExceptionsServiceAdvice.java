@@ -20,6 +20,7 @@ public class HandleExceptionsServiceAdvice {
     return error(HttpStatus.NOT_FOUND, e);
   }
 
+  // TODO: Retornar um codigo 400 diferente
   @ExceptionHandler({BusinessException.class})
   public ResponseEntity<String> handleRegraDeNegocioException(BusinessException e) {
     return error(HttpStatus.NOT_FOUND, e);
