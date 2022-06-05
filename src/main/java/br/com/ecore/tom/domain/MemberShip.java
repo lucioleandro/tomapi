@@ -36,4 +36,9 @@ public class MemberShip implements Serializable {
     return team;
   }
 
+  @Override
+  public String toString() {
+    return "MemberShip [member: " + member.getDisplayName() + ", team: " + team.getName() + "]";
+  }
+
 }

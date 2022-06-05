@@ -41,4 +41,9 @@ public class Team implements Serializable {
     return name;
   }
 
+  @Override
+  public String toString() {
+    return "Team [name: " + name + "]";
+  }
+
 }

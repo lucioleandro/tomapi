@@ -60,4 +60,9 @@ public class Member implements Serializable {
     this.role = role;
   }
 
+  @Override
+  public String toString() {
+    return "Member [displayName: " + displayName + ", role: " + role.getName() + "]";
+  }
+
 }

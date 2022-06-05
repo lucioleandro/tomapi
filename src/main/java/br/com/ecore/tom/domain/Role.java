@@ -48,4 +48,9 @@ public class Role implements Serializable {
     return description;
   }
 
+  @Override
+  public String toString() {
+    return "Role [name: " + name + ", description: " + description + "]";
+  }
+
 }

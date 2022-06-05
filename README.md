@@ -30,6 +30,8 @@
 
 - Os dados da tabela role serão externados? se não eu posso não ter uuid<br><br>
 
+- Sobrescrever equals and hashcode <br><br>
+
 
 ## Outros
 
