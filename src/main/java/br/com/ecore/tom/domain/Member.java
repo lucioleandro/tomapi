@@ -2,6 +2,7 @@ package br.com.ecore.tom.domain;
 
 import java.io.Serializable;
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,9 +20,11 @@ public class Member implements Serializable {
   private Integer id;
 
   @NotNull
+  @Column(nullable = false)
   private UUID uuid;
 
   @NotNull
+  @Column(nullable = false)
   private String displayName;
 
   @ManyToOne

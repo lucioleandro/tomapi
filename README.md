@@ -34,6 +34,8 @@
 
 - Verificar se preciso colocar @transaction nos métodos
 
+- Mudar os nomes dos métodos no controller para inglês
+
 
 ## Outros
 

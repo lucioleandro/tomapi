@@ -28,6 +28,10 @@ public class MemberShip implements Serializable {
     this.team = team;
   }
 
+  public Integer getId() {
+    return id;
+  }
+
   public Member getMember() {
     return member;
   }

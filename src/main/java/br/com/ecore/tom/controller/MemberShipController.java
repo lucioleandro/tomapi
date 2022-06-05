@@ -12,36 +12,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-import br.com.ecore.tom.domain.Role;
+import br.com.ecore.tom.domain.MemberShip;
 import br.com.ecore.tom.exceptions.APIExceptionUtils;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
-import br.com.ecore.tom.service.RoleService;
+import br.com.ecore.tom.service.MemberShipService;
 
 @RestController
-@RequestMapping("/role")
-public class RoleController {
+@RequestMapping("/membership")
+public class MemberShipController {
 
   @Autowired
-  private RoleService service;
+  private MemberShipService service;
 
   @PostMapping
-  public ResponseEntity<Role> createRole(@Valid @RequestBody Role role,
+  public ResponseEntity<MemberShip> cadastraMember(@Valid @RequestBody MemberShip memberShip,
       UriComponentsBuilder uriBuilder) {
-    APIExceptionUtils.assertValidPost(role.getId());
-    Role roleSalva = service.create(role);
-    URI uri = uriBuilder.path("/role/{id}").buildAndExpand(roleSalva.getId()).toUri();
-    return ResponseEntity.created(uri).body(roleSalva);
+    APIExceptionUtils.assertValidPost(memberShip.getId());
+    MemberShip memberSalva = service.create(memberShip);
+    URI uri = uriBuilder.path("/member/{id}").buildAndExpand(memberSalva.getId()).toUri();
+    return ResponseEntity.created(uri).body(memberSalva);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Role> buscaRolePorId(@PathVariable Integer id) {
-    Role role = service.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Role.class));
-    return ResponseEntity.ok(role);
+  public ResponseEntity<MemberShip> buscaMemberPorId(@PathVariable Integer id) {
+    MemberShip memberShip =
+        service.findById(id).orElseThrow(() -> new EntityNotFoundException(id, MemberShip.class));
+    return ResponseEntity.ok(memberShip);
   }
 
   @DeleteMapping("/{id}")
-  public void remove(@PathVariable Long id) {
-    // service.remove(id);
+  public void remove(@PathVariable Integer id) {
+    service.remove(id);
   }
-
 }

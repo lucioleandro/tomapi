@@ -2,6 +2,7 @@ package br.com.ecore.tom.domain;
 
 import java.io.Serializable;
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,13 +18,15 @@ public class Role implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @NotNull
+  @Column(nullable = false)
   private UUID uuid;
 
   @NotNull
+  @Column(nullable = false)
   private String name;
 
   @NotNull
+  @Column(nullable = false)
   private String description;
 
   public Role(Integer id, String name, String description) {
@@ -38,6 +41,10 @@ public class Role implements Serializable {
 
   public UUID getUuid() {
     return uuid;
+  }
+
+  public void setUuid(UUID uuid) {
+    this.uuid = uuid;
   }
 
   public String getName() {

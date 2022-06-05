@@ -2,6 +2,7 @@ package br.com.ecore.tom.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.ecore.tom.domain.Role;
@@ -14,6 +15,7 @@ public class RoleService {
   private RoleRepository repository;
 
   public Role create(Role role) {
+    role.setUuid(UUID.randomUUID());
     return repository.save(role);
   }
 
