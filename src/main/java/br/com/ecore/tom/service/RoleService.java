@@ -21,7 +21,7 @@ public class RoleService {
     return repository.findAll();
   }
 
-  public Optional<Role> findById(Long id) {
+  public Optional<Role> findById(Integer id) {
     return repository.findById(id);
   }
 }

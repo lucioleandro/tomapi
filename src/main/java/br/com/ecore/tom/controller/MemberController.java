@@ -34,14 +34,14 @@ public class MemberController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Member> buscaMemberPorId(@PathVariable Long id) {
+  public ResponseEntity<Member> buscaMemberPorId(@PathVariable Integer id) {
     Member member =
         service.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Member.class));
     return ResponseEntity.ok(member);
   }
 
   @DeleteMapping("/{id}")
-  public void remove(@PathVariable Long id) {
+  public void remove(@PathVariable Integer id) {
     service.remove(id);
   }
 }

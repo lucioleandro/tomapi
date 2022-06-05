@@ -14,7 +14,7 @@ public class MemberShip implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Integer id;
 
   @ManyToOne
   private Member member;
@@ -22,7 +22,7 @@ public class MemberShip implements Serializable {
   @ManyToOne
   private Team team;
 
-  public MemberShip(Long id, Member member, Team team) {
+  public MemberShip(Integer id, Member member, Team team) {
     this.id = id;
     this.member = member;
     this.team = team;

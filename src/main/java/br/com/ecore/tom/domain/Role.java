@@ -15,7 +15,7 @@ public class Role implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Integer id;
 
   @NotNull
   private UUID uuid;
@@ -26,13 +26,13 @@ public class Role implements Serializable {
   @NotNull
   private String description;
 
-  public Role(Long id, String name, String description) {
+  public Role(Integer id, String name, String description) {
     this.id = id;
     this.name = name;
     this.description = description;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 

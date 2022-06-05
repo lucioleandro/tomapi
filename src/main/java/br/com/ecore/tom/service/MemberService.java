@@ -17,16 +17,16 @@ public class MemberService {
     return repository.save(member);
   }
 
-  public Optional<Member> findById(Long id) {
+  public Optional<Member> findById(Integer id) {
     return repository.findById(id);
   }
 
-  public void remove(Long id) {
+  public void remove(Integer id) {
     Member member = getMemberByIdOrElseThrow(id);
     repository.deleteById(member.getId());
   }
 
-  private Member getMemberByIdOrElseThrow(Long id) {
+  private Member getMemberByIdOrElseThrow(Integer id) {
     return this.repository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException(id, Member.class));
   }

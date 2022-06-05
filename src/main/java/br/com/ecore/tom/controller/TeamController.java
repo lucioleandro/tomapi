@@ -41,7 +41,7 @@ public class TeamController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Team> buscaTeamPorId(@PathVariable Long id) {
+  public ResponseEntity<Team> buscaTeamPorId(@PathVariable Integer id) {
     Team teams =
         service.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Team.class));
     return ResponseEntity.ok(teams);

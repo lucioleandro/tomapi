@@ -15,7 +15,7 @@ public class Team implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Integer id;
 
   @NotNull
   private UUID uuid;
@@ -23,13 +23,13 @@ public class Team implements Serializable {
   @NotNull
   private String name;
 
-  public Team(long id, UUID uuid, String name) {
+  public Team(Integer id, UUID uuid, String name) {
     this.id = id;
     this.uuid = uuid;
     this.name = name;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 

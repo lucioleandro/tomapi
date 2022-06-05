@@ -16,7 +16,7 @@ public class Member implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Integer id;
 
   @NotNull
   private UUID uuid;
@@ -27,20 +27,20 @@ public class Member implements Serializable {
   @ManyToOne
   private Role role;
 
-  public Member(long id, UUID uuid, String displayName) {
+  public Member(Integer id, UUID uuid, String displayName) {
     this.id = id;
     this.uuid = uuid;
     this.displayName = displayName;
   }
 
-  public Member(long id, UUID uuid, String displayName, Role role) {
+  public Member(Integer id, UUID uuid, String displayName, Role role) {
     this.id = id;
     this.uuid = uuid;
     this.displayName = displayName;
     this.role = role;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 

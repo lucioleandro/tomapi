@@ -21,7 +21,7 @@ public class TeamService {
     return repository.findAll();
   }
 
-  public Optional<Team> findById(Long id) {
+  public Optional<Team> findById(Integer id) {
     return repository.findById(id);
   }
 

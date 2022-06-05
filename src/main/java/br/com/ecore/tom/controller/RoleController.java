@@ -34,7 +34,7 @@ public class RoleController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Role> buscaRolePorId(@PathVariable Long id) {
+  public ResponseEntity<Role> buscaRolePorId(@PathVariable Integer id) {
     Role role = service.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Role.class));
     return ResponseEntity.ok(role);
   }
