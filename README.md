@@ -18,6 +18,12 @@
 
 - Lembrar de tirar métodos de serviços não utilizados
 
+- Refatorar as classes para respeitar os 100 caracteres
+
+- Verificar se a API deles me permitem fazer post
+
+- Como salvar uuid no mysql
+
 
 ## Outros
 

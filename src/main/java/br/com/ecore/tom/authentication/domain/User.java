@@ -2,7 +2,6 @@ package br.com.ecore.tom.authentication.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,137 +9,119 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Entity
-@Table(uniqueConstraints = { 
-		@UniqueConstraint(name = "login_unique", columnNames = {"login"}),
-		@UniqueConstraint(name = "cpf_unique", columnNames = {"cpf"})
-})
+@Table(uniqueConstraints = {@UniqueConstraint(name = "login_unique", columnNames = {"login"}),
+    @UniqueConstraint(name = "cpf_unique", columnNames = {"cpf"})})
 public class User implements UserDetails {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-//  =========================================== CAMPOS PARTICULARES DA CLASSE
+  // =========================================== CAMPOS PARTICULARES DA CLASSE
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(nullable = false)
-	private String nome;
+  @Column(nullable = false)
+  private String name;
 
-	@Column(nullable = false)
-	private String email;
+  @Column(nullable = false)
+  private String email;
 
-	@Column(nullable = false)
-	private String login;
+  @Column(nullable = false)
+  private String login;
 
-	@Column(nullable = false)
-	private String senha;
-	
-	@Column(nullable = false)
-	private String cpf;
+  @Column(nullable = false)
+  private String password;
 
-	public User() {}
-	
-	public User(String nome, String email, String login, String senha) {
-		this.nome = nome;
-		this.email = email;
-		this.login = login;
-		this.senha = senha;
-	}
+  public User() {}
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return new ArrayList<>();
-	}
+  public User(String name, String email, String login, String password) {
+    this.name = name;
+    this.email = email;
+    this.login = login;
+    this.password = password;
+  }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return new ArrayList<>();
+  }
 
-	public Long getId() {
-		return id;
-	}
+  public static long getSerialversionuid() {
+    return serialVersionUID;
+  }
 
-	public String getNome() {
-		return nome;
-	}
-	
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public String getNome() {
+    return name;
+  }
 
-	public String getLogin() {
-		return login;
-	}
-	
-	public void setLogin(String login) {
-		this.login = login;
-	}
+  public void setNome(String nome) {
+    this.name = nome;
+  }
 
-	public String getSenha() {
-		return senha;
-	}
+  public String getEmail() {
+    return email;
+  }
 
-	@Override
-	public String getPassword() {
-		return this.senha;
-	}
-	
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-	@Override
-	public String getUsername() {
-		return this.login;
-	}
-	
-	public String getCpf() {
-		return cpf;
-	}
-	
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+  public String getLogin() {
+    return login;
+  }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+  public void setLogin(String login) {
+    this.login = login;
+  }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+  @Override
+  public String getPassword() {
+    return this.password;
+  }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+  public void setPawword(String password) {
+    this.password = password;
+  }
 
-	@Override
-	public String toString() {
-		return "User [id=" + id  + ", nome=" + nome + ", email=" + email + ", login=" + login
-				+ ", senha=" + senha +  "]";
-	}
-	
+  @Override
+  public String getUsername() {
+    return this.login;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "User [id=" + id + ", nome=" + name + ", email=" + email + ", login=" + login
+        + ", senha=" + password + "]";
+  }
+
 }
