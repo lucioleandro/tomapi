@@ -38,7 +38,9 @@ CREATE TABLE `team` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `uuid` binary(255) NOT NULL,
+  `role_id` INT DEFAULT NULL,
   CONSTRAINT `PK_team` PRIMARY KEY (`id` ASC)
+  CONSTRAINT `FK_team_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE Restrict ON UPDATE Restrict
 );
 
 -- Table `member`
