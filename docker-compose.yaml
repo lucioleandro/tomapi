@@ -1,0 +1,33 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: db_mysql_dev
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ecore100*
+    networks:
+      - tom-dev
+    volumes:
+      - db-mysql-dev:/var/lib/mysql
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  db-mysql-dev:
+
+networks:
+  tom-dev:
+    name: tom-dev
+    driver: bridge
