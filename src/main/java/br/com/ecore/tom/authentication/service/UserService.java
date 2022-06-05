@@ -8,13 +8,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import br.com.ecore.tom.authentication.domain.User;
-import br.com.ecore.tom.authentication.repository.UsuarioRepository;
+import br.com.ecore.tom.authentication.repository.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
 
   @Autowired
-  private UsuarioRepository usuarioRepository;
+  private UserRepository usuarioRepository;
 
   public UserDetails loadUserByUsername(String username) {
     User usuario = usuarioRepository.findByName(username);

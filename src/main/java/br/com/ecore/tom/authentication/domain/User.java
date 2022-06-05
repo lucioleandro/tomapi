@@ -14,13 +14,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(name = "login_unique", columnNames = {"login"}),
-    @UniqueConstraint(name = "cpf_unique", columnNames = {"cpf"})})
+@Table(uniqueConstraints = {@UniqueConstraint(name = "login_unique", columnNames = {"login"})})
 public class User implements UserDetails {
 
   private static final long serialVersionUID = 1L;
-
-  // =========================================== CAMPOS PARTICULARES DA CLASSE
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -120,8 +117,7 @@ public class User implements UserDetails {
 
   @Override
   public String toString() {
-    return "User [id=" + id + ", nome=" + name + ", email=" + email + ", login=" + login
-        + ", senha=" + password + "]";
+    return "User [id=" + id + ", nome=" + name + ", email=" + email + ", login=" + login + "]";
   }
 
 }
