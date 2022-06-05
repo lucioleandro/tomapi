@@ -2,27 +2,33 @@
 
 ## TODO
 
-- Cron to get data from the other application (see how to configure to the job run just in one instance)
+- Cron to get data from the other application (see how to configure to the job run just in one instance)<br><br>
 
-- integrate the application with h2 bank
+- check if an id mut be Long or long - done - it must be Integer since int never can be null and we need null id to insert new entitities in the bank <br><br>
 
-- check if an id mut be Long or long
+- Ver a diferença entre generatedType.Auto e generatedType.Identity<br><br> done https://www.alura.com.br/artigos/entendendo-a-geracao-de-chaves-com-jpa
 
-- Ver a diferença entre generatedType.Auto e generatedType.Identity
+- Generate javadoc to all application<br><br>
 
-- Generate javadoc to all application
+- Generat at least toString to Member and Team Class<br><br>
 
-- Generat at least toString to Member and Team Class
+- Check if is betterUse defaulSerial or generated serial version<br><br>
 
-- Check if is betterUse defaulSerial or generated serial version
+- Lembrar de tirar métodos de serviços não utilizados<br><br>
 
-- Lembrar de tirar métodos de serviços não utilizados
+- Refatorar as classes para respeitar os 100 caracteres<br><br>
 
-- Refatorar as classes para respeitar os 100 caracteres
+- Verificar se a API deles me permitem fazer post<br><br>
 
-- Verificar se a API deles me permitem fazer post
+- Como salvar uuid no mysql<br><br>
 
-- Como salvar uuid no mysql
+- Passar o sonar lint no projeto<br><br>
+
+- Fazer o adminer funcionar com porta externa<br><br>
+
+- mudar o nome da tabela do flyway<br><br>
+
+- Os dados da tabela role serão externados? se não eu posso não ter uuid<br><br>
 
 
 ## Outros
