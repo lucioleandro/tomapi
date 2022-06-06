@@ -40,6 +40,7 @@ public class MemberConsumerService {
     return this.memberService.create(user.transformToMember());
   }
 
+  // TODO: Fazer calculo de algoritmo para analisar o quanto demora pra rodar
   public void fetchMembers() {
     List<Member> members = this.memberService.findAll();
     Set<Member> setOfMembers = new HashSet<>(members);
@@ -58,5 +59,6 @@ public class MemberConsumerService {
     return setOfMembers.stream().filter(member -> member.getId() == null)
         .collect(Collectors.toList());
   }
+
 
 }

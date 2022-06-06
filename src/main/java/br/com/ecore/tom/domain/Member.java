@@ -78,13 +78,13 @@ public class Member implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.displayName);
+    return Objects.hash(this.uuid);
   }
 
   @Override
   public boolean equals(Object obj) {
     Member other = (Member) obj;
-    return uuid == other.uuid;
+    return uuid.equals(other.uuid);
   }
 
   @Override

@@ -46,6 +46,8 @@
 
 - Usar logger em todos os services, inclusive no job e também no fetch <br><br>
 
+- O serviço de membros tem mais dados do que imaginavamos <br><br>
+
 
 ## Outros
 
