@@ -36,7 +36,9 @@
 
 - O serviço de membros tem mais dados do que imaginavamos <br><br>
 
--Remover pasta Git antes de entregar <br><br>
+- Remover pasta Git antes de entregar <br><br>
+
+- Melhorar para busca paginada
 
 
 ## Outros

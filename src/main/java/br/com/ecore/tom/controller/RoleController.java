@@ -1,6 +1,7 @@
 package br.com.ecore.tom.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,12 @@ public class RoleController {
     Role savedRole = service.create(role);
     URI uri = uriBuilder.path("/role/{id}").buildAndExpand(savedRole.getUuid()).toUri();
     return ResponseEntity.created(uri).body(new RoleDTO(savedRole));
+  }
+
+  @GetMapping
+  public ResponseEntity<List<RoleDTO>> listAllRoles() {
+    List<Role> roles = service.findAll();
+    return ResponseEntity.ok(RoleDTO.convertList(roles));
   }
 
   @GetMapping("/{externalId}")

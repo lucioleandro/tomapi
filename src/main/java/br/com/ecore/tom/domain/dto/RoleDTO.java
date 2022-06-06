@@ -1,6 +1,8 @@
 package br.com.ecore.tom.domain.dto;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import br.com.ecore.tom.domain.Role;
 
 public class RoleDTO {
@@ -19,6 +21,10 @@ public class RoleDTO {
     this.id = role.getUuid();
     this.name = role.getName();
     this.description = role.getDescription();
+  }
+
+  public static List<RoleDTO> convertList(List<Role> roles) {
+    return roles.stream().map(RoleDTO::new).collect(Collectors.toList());
   }
 
   public UUID getId() {
