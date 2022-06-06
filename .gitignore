@@ -25,3 +25,5 @@ hs_err_pid*
 .classpath
 
 .settings/
+
+target/m2e-wtp/web-resources/META-INF/
