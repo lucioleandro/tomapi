@@ -11,6 +11,7 @@ services:
     expose:
       - 3306
     environment:
+      MYSQL_DATABASE: tomdb
       MYSQL_ROOT_PASSWORD: ecore100*
     networks:
       - tom-dev
