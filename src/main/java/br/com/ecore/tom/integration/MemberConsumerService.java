@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import br.com.ecore.tom.domain.Member;
+import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.service.MemberService;
 
 @Service
@@ -25,16 +27,18 @@ public class MemberConsumerService {
         restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler()).build();
   }
 
-  // TODO: Verificar se o retorno não é nullo.
-  public void fetchMemberById(UUID id) {
+  public Member fetchMemberById(UUID id) {
     UserConsumerDTO user =
-        this.restTemplate.getForObject(API_URL + "/members/" + id, UserConsumerDTO.class);
-    this.memberService.create(user.transformToMember());
+        this.restTemplate.getForObject(API_URL + "/users/" + id, UserConsumerDTO.class);
+    if (user == null) {
+      throw new EntityNotFoundException(id, Member.class);
+    }
+    return this.memberService.create(user.transformToMember());
   }
 
   public void fetchMembers() {
     UserConsumerDTO[] users =
-        this.restTemplate.getForEntity(API_URL + "/members/", UserConsumerDTO[].class).getBody();
+        this.restTemplate.getForEntity(API_URL + "/users/", UserConsumerDTO[].class).getBody();
 
     for (UserConsumerDTO user : users) {
       this.memberService.create(user.transformToMember());

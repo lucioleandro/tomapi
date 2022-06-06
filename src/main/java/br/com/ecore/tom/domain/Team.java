@@ -8,7 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+import org.hibernate.annotations.Type;
 
 @Entity
 public class Team implements Serializable {
@@ -19,11 +20,11 @@ public class Team implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @NotNull
   @Column(nullable = false)
+  @Type(type = "org.hibernate.type.UUIDCharType")
   private UUID uuid;
 
-  @NotNull
+  @NotEmpty
   @Column(nullable = false)
   private String name;
 

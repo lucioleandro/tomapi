@@ -1,11 +1,14 @@
 package br.com.ecore.tom.domain;
 
 import java.io.Serializable;
+import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import org.hibernate.annotations.Type;
 
 @Entity
 public class MemberShip implements Serializable {
@@ -16,20 +19,29 @@ public class MemberShip implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
+  @Column(nullable = false)
+  @Type(type = "org.hibernate.type.UUIDCharType")
+  private UUID uuid;
+
   @ManyToOne
   private Member member;
 
   @ManyToOne
   private Team team;
 
-  public MemberShip(Integer id, Member member, Team team) {
+  public MemberShip(Integer id, UUID uuid, Member member, Team team) {
     this.id = id;
+    this.uuid = uuid;
     this.member = member;
     this.team = team;
   }
 
   public Integer getId() {
     return id;
+  }
+
+  public UUID getUuid() {
+    return uuid;
   }
 
   public Member getMember() {

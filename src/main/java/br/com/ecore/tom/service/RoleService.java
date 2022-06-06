@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.ecore.tom.domain.Role;
+import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.repository.RoleRepository;
 
 @Service
@@ -25,5 +26,11 @@ public class RoleService {
 
   public Optional<Role> findById(Integer id) {
     return repository.findById(id);
+  }
+
+  public Role findByExternalId(UUID externalId) {
+    return repository.findByUuid(externalId)
+        .orElseThrow(() -> new EntityNotFoundException(externalId, Role.class));
+
   }
 }

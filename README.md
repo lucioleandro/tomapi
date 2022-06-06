@@ -30,11 +30,19 @@
 
 - Os dados da tabela role serão externados? se não eu posso não ter uuid<br><br>
 
-- Sobrescrever equals and hashcode <br><br>
+- Sobrescrever equals and hashcode <br><br>	
 
-- Verificar se preciso colocar @transaction nos métodos
+- Verificar se preciso colocar @transaction nos métodos <br><br>
 
-- Mudar os nomes dos métodos no controller para inglês
+- Mudar os nomes dos métodos no controller para inglês <br><br>
+
+- Tirar validations das classes que não são necessárias
+
+- os ids externos devem ser uniques
+
+- Como não deixar o swagger exposto
+
+- Ver o porquê o uuid não está sendo salvo corretamente no banco
 
 
 ## Outros

@@ -24,9 +24,9 @@ DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `uuid` binary(255) DEFAULT NULL,
+  `uuid` binary(36) DEFAULT NULL,
   CONSTRAINT `PK_role`PRIMARY KEY (`id` ASC)
 );
 
@@ -36,9 +36,9 @@ DROP TABLE IF EXISTS `team`;
 
 CREATE TABLE `team` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `uuid` binary(255) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `role_id` INT DEFAULT NULL,
+  `uuid` binary(36) NOT NULL,
   CONSTRAINT `PK_team` PRIMARY KEY (`id` ASC),
   CONSTRAINT `FK_team_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE Restrict ON UPDATE Restrict
 );
@@ -49,9 +49,9 @@ DROP TABLE IF EXISTS `member`;
 
 CREATE TABLE `member` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `display_name` varchar(255) NOT NULL,
-  `uuid` binary(255) NOT NULL,
+  `display_name` varchar(50) NOT NULL,
   `role_id` INT DEFAULT NULL,
+  `uuid` binary(36) NOT NULL,
   CONSTRAINT `PK_member` PRIMARY KEY (`id` ASC),
   CONSTRAINT `FK_member_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE Restrict ON UPDATE Restrict
 );
@@ -65,6 +65,7 @@ CREATE TABLE `member_ship` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `member_id` INT DEFAULT NULL,
   `team_id` INT DEFAULT NULL,
+  `uuid` binary(36) NOT NULL,
   CONSTRAINT `PK_member_ship`PRIMARY KEY (`id` ASC),
   CONSTRAINT `FK_member_ship_team` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`) ON DELETE Restrict ON UPDATE Restrict,
   CONSTRAINT `FK_member_ship_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE Restrict ON UPDATE Restrict

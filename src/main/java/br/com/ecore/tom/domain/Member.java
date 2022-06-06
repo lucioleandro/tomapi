@@ -8,7 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.annotations.Type;
 
 @Entity
 public class Member implements Serializable {
@@ -21,9 +24,11 @@ public class Member implements Serializable {
 
   @NotNull
   @Column(nullable = false)
+  @Type(type = "org.hibernate.type.UUIDCharType")
   private UUID uuid;
 
-  @NotNull
+  @NotEmpty
+  @Size(max = 50, min = 3)
   @Column(nullable = false)
   private String displayName;
 
@@ -47,6 +52,8 @@ public class Member implements Serializable {
     this.uuid = uuid;
     this.displayName = displayName;
   }
+
+  public Member() {}
 
   public Integer getId() {
     return id;

@@ -1,11 +1,13 @@
 package br.com.ecore.tom.controller;
 
 import java.net.URI;
+import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import br.com.ecore.tom.domain.Member;
+import br.com.ecore.tom.domain.dto.MemberDTO;
 import br.com.ecore.tom.exceptions.APIExceptionUtils;
-import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.service.MemberService;
 
 @RestController
@@ -33,11 +35,17 @@ public class MemberController {
     return ResponseEntity.created(uri).body(memberSalva);
   }
 
+  @PatchMapping("assign/{memberExternalId}/{roleExternalId}")
+  public ResponseEntity<MemberDTO> assignRoleToMember(@PathVariable UUID memberExternalId,
+      @PathVariable UUID roleExternalId) {
+    Member updatedMember = service.assignRole(memberExternalId, roleExternalId);
+    return ResponseEntity.ok(new MemberDTO(updatedMember));
+  }
+
   @GetMapping("/{id}")
-  public ResponseEntity<Member> buscaMemberPorId(@PathVariable Integer id) {
-    Member member =
-        service.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Member.class));
-    return ResponseEntity.ok(member);
+  public ResponseEntity<MemberDTO> buscaMemberPorId(@PathVariable Integer id) {
+    Member member = service.findById(id);
+    return ResponseEntity.ok(new MemberDTO(member));
   }
 
   @DeleteMapping("/{id}")

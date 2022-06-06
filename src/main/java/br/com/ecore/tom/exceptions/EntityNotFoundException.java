@@ -1,13 +1,22 @@
 package br.com.ecore.tom.exceptions;
 
+import java.util.UUID;
+
 public class EntityNotFoundException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;
 
   private final Class<?> classe;
-  private final Integer idBuscado;
+  private final Object idBuscado;
 
   public EntityNotFoundException(Integer idBuscado, Class<?> classe) {
+    super("Não foi encontrada uma instância da classe " + classe.getName() + " com o id: "
+        + idBuscado);
+    this.idBuscado = idBuscado;
+    this.classe = classe;
+  }
+
+  public EntityNotFoundException(UUID idBuscado, Class<?> classe) {
     super("Não foi encontrada uma instância da classe " + classe.getName() + " com o id: "
         + idBuscado);
     this.idBuscado = idBuscado;
@@ -33,7 +42,7 @@ public class EntityNotFoundException extends RuntimeException {
     this.classe = classe;
   }
 
-  public Integer getId() {
+  public Object getId() {
     return idBuscado;
   }
 
