@@ -17,13 +17,12 @@ public class HandleExceptionsServiceAdvice {
 
   @ExceptionHandler({EntityNotFoundException.class})
   public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
-    return error(HttpStatus.NOT_FOUND, e);
+    return error(HttpStatus.UNPROCESSABLE_ENTITY, e);
   }
 
-  // TODO: Retornar um codigo 400 diferente
   @ExceptionHandler({BusinessException.class})
-  public ResponseEntity<String> handleRegraDeNegocioException(BusinessException e) {
-    return error(HttpStatus.NOT_FOUND, e);
+  public ResponseEntity<String> handleBusinessException(BusinessException e) {
+    return error(HttpStatus.valueOf(432), e); // Retorna um particular codigo 400
   }
 
   @ExceptionHandler({APIException.class})
@@ -37,7 +36,7 @@ public class HandleExceptionsServiceAdvice {
   }
 
   private ResponseEntity<String> error(HttpStatus status, Exception e) {
-    logger.error("Um erro ocorreu", e);
+    logger.error("error: ", e);
     return ResponseEntity.status(status).body(e.getMessage());
   }
 }
