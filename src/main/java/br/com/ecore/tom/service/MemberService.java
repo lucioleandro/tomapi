@@ -1,5 +1,6 @@
 package br.com.ecore.tom.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,10 @@ public class MemberService {
     return repository.save(member);
   }
 
+  public void createAll(List<Member> membersToSave) {
+    repository.saveAll(membersToSave);
+  }
+
   public Member assignRole(UUID memberExternalId, UUID roleExternalId) {
     Member member = this.findByExternalId(memberExternalId);
     Role role = roleService.findByExternalId(roleExternalId);
@@ -47,14 +52,8 @@ public class MemberService {
     }
   }
 
-  public void remove(Integer id) {
-    Member member = getMemberByIdOrElseThrow(id);
-    repository.deleteById(member.getId());
-  }
-
-  private Member getMemberByIdOrElseThrow(Integer id) {
-    return this.repository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException(id, Member.class));
+  public List<Member> findAll() {
+    return repository.findAll();
   }
 
 }

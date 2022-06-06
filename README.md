@@ -36,13 +36,15 @@
 
 - Mudar os nomes dos métodos no controller para inglês <br><br>
 
-- Tirar validations das classes que não são necessárias
+- Tirar validations das classes que não são necessárias <br><br>
 
-- os ids externos devem ser uniques
+- os ids externos devem ser uniques <br><br>
 
-- Como não deixar o swagger exposto
+- Como não deixar o swagger exposto <br><br>
 
-- Ver o porquê o uuid não está sendo salvo corretamente no banco
+- Ver o porquê o uuid não está sendo salvo corretamente no banco <br><br>
+
+- Usar logger em todos os services, inclusive no job e também no fetch <br><br>
 
 
 ## Outros

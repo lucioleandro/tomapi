@@ -1,6 +1,10 @@
 package br.com.ecore.tom.integration;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -37,12 +41,22 @@ public class MemberConsumerService {
   }
 
   public void fetchMembers() {
+    List<Member> members = this.memberService.findAll();
+    Set<Member> setOfMembers = new HashSet<>(members);
+
     UserConsumerDTO[] users =
         this.restTemplate.getForEntity(API_URL + "/users/", UserConsumerDTO[].class).getBody();
 
     for (UserConsumerDTO user : users) {
-      this.memberService.create(user.transformToMember());
+      setOfMembers.add(user.transformToMember());
     }
 
+    memberService.createAll(getOnlyNewMembers(setOfMembers));
   }
+
+  private List<Member> getOnlyNewMembers(Set<Member> setOfMembers) {
+    return setOfMembers.stream().filter(member -> member.getId() == null)
+        .collect(Collectors.toList());
+  }
+
 }
