@@ -18,6 +18,7 @@ public class SyncSystemsDataJob {
   private MemberConsumerService consumerService;
 
   // TODO: Usar log
+  // TODO: configuração para rodar em apenas uma instância (olhar proconsumidor)
   @Scheduled(cron = CRON)
   public void executeSync() {
     consumerService.fetchMembers();

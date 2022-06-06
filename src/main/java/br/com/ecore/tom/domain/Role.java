@@ -1,6 +1,7 @@
 package br.com.ecore.tom.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -65,6 +66,26 @@ public class Role implements Serializable {
 
   public String getDescription() {
     return description;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, uuid);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+
+    if (obj == null)
+      return false;
+
+    if (getClass() != obj.getClass())
+      return false;
+
+    Role other = (Role) obj;
+    return Objects.equals(id, other.id) && Objects.equals(uuid, other.uuid);
   }
 
   @Override

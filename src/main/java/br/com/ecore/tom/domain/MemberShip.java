@@ -1,6 +1,7 @@
 package br.com.ecore.tom.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,6 +51,26 @@ public class MemberShip implements Serializable {
 
   public Team getTeam() {
     return team;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, uuid);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+
+    if (obj == null)
+      return false;
+
+    if (getClass() != obj.getClass())
+      return false;
+
+    MemberShip other = (MemberShip) obj;
+    return Objects.equals(id, other.id) && Objects.equals(uuid, other.uuid);
   }
 
   @Override

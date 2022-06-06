@@ -83,6 +83,12 @@ public class Member implements Serializable {
 
   @Override
   public boolean equals(Object obj) {
+    if (obj == null)
+      return false;
+
+    if (this.getClass() != obj.getClass())
+      return false;
+
     Member other = (Member) obj;
     return uuid.equals(other.uuid);
   }
