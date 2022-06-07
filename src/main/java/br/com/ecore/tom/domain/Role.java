@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -35,6 +33,14 @@ public class Role implements Serializable {
 
   public Role() {}
 
+  public Role(UUID uuid) {
+    this.uuid = uuid;
+  }
+
+  public Role(Integer id) {
+    this.id = id;
+  }
+
   public Role(Integer id, UUID uuid, String name, String description) {
     this.id = id;
     this.uuid = uuid;
@@ -42,12 +48,10 @@ public class Role implements Serializable {
     this.description = description;
   }
 
-  public Role(UUID uuid) {
+  public Role(UUID uuid, String name, String description) {
     this.uuid = uuid;
-  }
-
-  public Role(Integer id) {
-    this.id = id;
+    this.name = name;
+    this.description = description;
   }
 
   public Integer getId() {

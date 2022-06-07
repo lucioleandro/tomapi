@@ -26,8 +26,9 @@ public class RoleController {
   private RoleService service;
 
   @PostMapping
-  public ResponseEntity<RoleDTO> createRole(@Valid @RequestBody RoleDTO role,
+  public ResponseEntity<RoleDTO> createRole(@Valid @RequestBody RoleDTO roleDTO,
       UriComponentsBuilder uriBuilder) {
+    Role role = roleDTO.transformToRole();
     APIExceptionUtils.assertValidPost(role.getId());
     Role savedRole = service.create(role);
     URI uri = uriBuilder.path("/role/{id}").buildAndExpand(savedRole.getUuid()).toUri();

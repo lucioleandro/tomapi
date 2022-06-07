@@ -3,9 +3,9 @@ package br.com.ecore.tom.domain.dto;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import br.com.ecore.tom.domain.Role;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import br.com.ecore.tom.domain.Role;
 
 public class RoleDTO {
 
@@ -33,6 +33,10 @@ public class RoleDTO {
 
   public static List<RoleDTO> convertList(List<Role> roles) {
     return roles.stream().map(RoleDTO::new).collect(Collectors.toList());
+  }
+
+  public Role transformToRole() {
+    return new Role(this.id, this.name, this.description);
   }
 
   public UUID getId() {
