@@ -12,11 +12,11 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import br.com.ecore.tom.domain.Member;
-import br.com.ecore.tom.domain.MemberShip;
+import br.com.ecore.tom.domain.Membership;
 import br.com.ecore.tom.domain.Team;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.service.MemberService;
-import br.com.ecore.tom.service.MemberShipService;
+import br.com.ecore.tom.service.MembershipService;
 import br.com.ecore.tom.service.TeamService;
 
 @Service
@@ -34,7 +34,7 @@ public class TeamConsumerService {
   private MemberService memberService;
 
   @Autowired
-  private MemberShipService memberShipService;
+  private MembershipService memberShipService;
 
   private RestTemplate restTemplate;
 
@@ -85,7 +85,7 @@ public class TeamConsumerService {
   private void fetchMemberships(TeamConsumerDTO teamDTO, Team team) {
     for (UUID memberId : teamDTO.getTeamMemberIds()) {
       Member member = memberService.findByExternalId(memberId);
-      MemberShip newShip = new MemberShip(member, team);
+      Membership newShip = new Membership(member, team);
       memberShipService.create(newShip);
     }
   }

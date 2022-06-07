@@ -61,18 +61,18 @@ CREATE TABLE `team` (
 );
 
 
--- Table `member_ship`
+-- Table `membership`
 
-DROP TABLE IF EXISTS `member_ship`;
+DROP TABLE IF EXISTS `membership`;
 
-CREATE TABLE `member_ship` (
+CREATE TABLE `membership` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `member_id` INT DEFAULT NULL,
   `team_id` INT DEFAULT NULL,
   `uuid` binary(36) NOT NULL,
-  CONSTRAINT `PK_member_ship`PRIMARY KEY (`id` ASC),
-  CONSTRAINT `FK_member_ship_team` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`) ON DELETE Restrict ON UPDATE Restrict,
-  CONSTRAINT `FK_member_ship_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE Restrict ON UPDATE Restrict
+  CONSTRAINT `PK_membership`PRIMARY KEY (`id` ASC),
+  CONSTRAINT `FK_membership_team` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`) ON DELETE Restrict ON UPDATE Restrict,
+  CONSTRAINT `FK_membership_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE Restrict ON UPDATE Restrict
 );
 
 

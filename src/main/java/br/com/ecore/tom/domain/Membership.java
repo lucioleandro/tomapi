@@ -9,10 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
 @Entity
-public class MemberShip implements Serializable {
+@Table(name = "membership")
+public class Membership implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -29,20 +31,20 @@ public class MemberShip implements Serializable {
   @ManyToOne(fetch = FetchType.LAZY)
   private Team team;
 
-  public MemberShip() {}
+  public Membership() {}
 
-  public MemberShip(Integer id) {
+  public Membership(Integer id) {
     this.id = id;
   }
 
-  public MemberShip(Integer id, UUID uuid, Member member, Team team) {
+  public Membership(Integer id, UUID uuid, Member member, Team team) {
     this.id = id;
     this.uuid = uuid;
     this.member = member;
     this.team = team;
   }
 
-  public MemberShip(Member member, Team team) {
+  public Membership(Member member, Team team) {
     this.member = member;
     this.team = team;
   }
@@ -83,7 +85,7 @@ public class MemberShip implements Serializable {
     if (getClass() != obj.getClass())
       return false;
 
-    MemberShip other = (MemberShip) obj;
+    Membership other = (Membership) obj;
     return Objects.equals(id, other.id) && Objects.equals(uuid, other.uuid);
   }
 

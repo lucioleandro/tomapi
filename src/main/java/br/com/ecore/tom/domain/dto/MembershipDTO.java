@@ -1,21 +1,21 @@
 package br.com.ecore.tom.domain.dto;
 
 import java.util.UUID;
-import br.com.ecore.tom.domain.MemberShip;
+import br.com.ecore.tom.domain.Membership;
 
-public class MemberShipDTO {
+public class MembershipDTO {
 
   private UUID id;
   private MemberDTO member;
   private TeamDTO team;
 
-  public MemberShipDTO(UUID id, MemberDTO memberDTO, TeamDTO teamDTO) {
+  public MembershipDTO(UUID id, MemberDTO memberDTO, TeamDTO teamDTO) {
     this.id = id;
     this.member = memberDTO;
     this.team = teamDTO;
   }
 
-  public MemberShipDTO(MemberShip memberShip) {
+  public MembershipDTO(Membership memberShip) {
     this.id = memberShip.getUuid();
     this.member = new MemberDTO(memberShip.getMember());
     this.team = new TeamDTO(memberShip.getTeam());

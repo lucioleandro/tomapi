@@ -5,14 +5,14 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import br.com.ecore.tom.domain.MemberShip;
-import br.com.ecore.tom.domain.dto.MemberShipDTO;
+import br.com.ecore.tom.domain.Membership;
+import br.com.ecore.tom.domain.dto.MembershipDTO;
 
-public interface MemberShipRepository extends JpaRepository<MemberShip, Integer> {
+public interface MembershipRepository extends JpaRepository<Membership, Integer> {
 
-  Optional<MemberShip> findByUuid(UUID externalId);
+  Optional<Membership> findByUuid(UUID externalId);
 
   @Query("SELECT ms from MemberShip ms where ms.member.role.uuid = ?1")
-  List<MemberShipDTO> findByRoleExternalId(UUID externalId);
+  List<MembershipDTO> findByRoleExternalId(UUID externalId);
 
 }

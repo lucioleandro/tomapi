@@ -8,26 +8,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import br.com.ecore.tom.domain.MemberShip;
-import br.com.ecore.tom.domain.dto.MemberShipDTO;
-import br.com.ecore.tom.service.MemberShipService;
+import br.com.ecore.tom.domain.Membership;
+import br.com.ecore.tom.domain.dto.MembershipDTO;
+import br.com.ecore.tom.service.MembershipService;
 
 @RestController
 @RequestMapping("/membership")
-public class MemberShipController {
+public class MembershipController {
 
   @Autowired
-  private MemberShipService service;
+  private MembershipService service;
 
   @GetMapping("/{id}")
-  public ResponseEntity<MemberShip> buscaMemberPorId(@PathVariable Integer externalId) {
-    MemberShip memberShip = service.findById(externalId);
+  public ResponseEntity<Membership> buscaMemberPorId(@PathVariable Integer externalId) {
+    Membership memberShip = service.findById(externalId);
     return ResponseEntity.ok(memberShip);
   }
 
   @GetMapping("role/{roleExternalId}")
-  public ResponseEntity<List<MemberShipDTO>> lookupByRole(@PathVariable UUID roleExternalId) {
-    List<MemberShipDTO> memberShips = service.findByRoleExternalId(roleExternalId);
+  public ResponseEntity<List<MembershipDTO>> lookupByRole(@PathVariable UUID roleExternalId) {
+    List<MembershipDTO> memberShips = service.findByRoleExternalId(roleExternalId);
     return ResponseEntity.ok(memberShips);
   }
 

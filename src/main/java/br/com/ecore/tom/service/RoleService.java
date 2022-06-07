@@ -17,7 +17,7 @@ public class RoleService {
   private RoleRepository repository;
 
   @Autowired
-  private MemberShipService membserShipService;
+  private MembershipService membserShipService;
 
   @Transactional
   public Role create(Role role) {

@@ -9,10 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import org.hibernate.annotations.Type;
 
 @Entity
+@Table(name = "team")
 public class Team implements Serializable {
 
   private static final long serialVersionUID = 1L;

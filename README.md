@@ -38,13 +38,15 @@
 
 - Remover pasta Git antes de entregar <br><br>
 
-- Melhorar para busca paginada
+- Melhorar para busca paginada <br><br>
 
-- Refatorar métodos fetchs
+- Refatorar métodos fetchs <br><br>
 
-- Criar interfaces para os jobs
+- Criar interfaces para os jobs <br><br>
 
-- Se der tempo paginar as consultas
+- Se der tempo paginar as consultas <br><br>
+
+- substituir role por roleDto no post do serviço; <br><br>
 
 
 ## Outros
