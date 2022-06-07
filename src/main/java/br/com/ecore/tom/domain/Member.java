@@ -35,8 +35,6 @@ public class Member implements Serializable {
   @Column(nullable = true, length = 30)
   private String lastName;
 
-  @NotEmpty
-  @Size(max = 30, min = 3)
   @Column(nullable = false)
   private String displayName;
 

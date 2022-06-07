@@ -27,7 +27,6 @@ public class Team implements Serializable {
   @Type(type = "org.hibernate.type.UUIDCharType")
   private UUID uuid;
 
-  @NotEmpty
   @Column(nullable = false)
   private String name;
 
