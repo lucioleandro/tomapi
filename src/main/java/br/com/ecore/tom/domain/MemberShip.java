@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,14 +23,14 @@ public class MemberShip implements Serializable {
   @Type(type = "org.hibernate.type.UUIDCharType")
   private UUID uuid;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Team team;
 
   public MemberShip() {}
-  
+
   public MemberShip(Integer id) {
     this.id = id;
   }
