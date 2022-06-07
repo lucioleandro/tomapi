@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -43,26 +44,29 @@ public class TeamConsumerService {
         restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler()).build();
   }
 
+  @Transactional
   public Team fetchTeamById(UUID id) {
-    TeamConsumerDTO team = findById(id);
-    if (team == null) {
+    TeamConsumerDTO teamDTO = findById(id);
+    if (teamDTO == null) {
       throw new EntityNotFoundException(id, Team.class);
     }
-    return this.teamService.create(team.transformToTeam());
+    Team team = teamDTO.transformToTeam();
+    Team savedTeam = this.teamService.create(team);
+
+    this.fetchMemberships(teamDTO, savedTeam);
+
+    return savedTeam;
   }
 
   // TODO: Fazer calculo de algoritmo para analisar o quanto demora pra rodar
+  @Transactional
   public void fetchTeams() {
     List<Team> listOfteams = this.teamService.findAll();
-    Set<Team> setOfTeams = new HashSet<>(listOfteams);
 
     TeamConsumerDTO[] teams = this.restTemplate
         .getForEntity(API_URL + "/" + RESOURCE + "/", TeamConsumerDTO[].class).getBody();
 
-    for (TeamConsumerDTO team : teams) {
-      setOfTeams.add(team.transformToTeam());
-    }
-    List<Team> savedTeams = teamService.createAll(getOnlyNewTeams(setOfTeams));
+    List<Team> savedTeams = teamService.createAll(getOnlyNewTeams(teams, listOfteams));
 
     for (int i = 0; i < savedTeams.size(); i++) {
       Team savedTeam = savedTeams.get(i);
@@ -73,12 +77,16 @@ public class TeamConsumerService {
         savedTeam.setTeamLead(teamLead);
         Team updatedTeam = teamService.update(savedTeam);
 
-        for (UUID memberId : completedTeamDTO.getTeamMemberIds()) {
-          Member member = memberService.findByExternalId(memberId);
-          MemberShip newShip = new MemberShip(member, updatedTeam);
-          memberShipService.create(newShip);
-        }
+        this.fetchMemberships(completedTeamDTO, updatedTeam);
       }
+    }
+  }
+
+  private void fetchMemberships(TeamConsumerDTO teamDTO, Team team) {
+    for (UUID memberId : teamDTO.getTeamMemberIds()) {
+      Member member = memberService.findByExternalId(memberId);
+      MemberShip newShip = new MemberShip(member, team);
+      memberShipService.create(newShip);
     }
   }
 
@@ -87,9 +95,12 @@ public class TeamConsumerService {
         TeamConsumerDTO.class);
   }
 
-  private List<Team> getOnlyNewTeams(Set<Team> setOfTeams) {
+  private List<Team> getOnlyNewTeams(TeamConsumerDTO[] teams, List<Team> listOfteams) {
+    Set<Team> setOfTeams = new HashSet<>(listOfteams);
+    for (TeamConsumerDTO team : teams) {
+      setOfTeams.add(team.transformToTeam());
+    }
     return setOfTeams.stream().filter(team -> team.getId() == null).collect(Collectors.toList());
   }
-
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -33,6 +34,7 @@ public class MemberConsumerService {
         restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler()).build();
   }
 
+  @Transactional
   public Member fetchMemberById(UUID id) {
     UserConsumerDTO user = findById(id);
     if (user == null) {
@@ -42,18 +44,14 @@ public class MemberConsumerService {
   }
 
   // TODO: Fazer calculo de algoritmo para analisar o quanto demora pra rodar
+  @Transactional
   public void fetchMembers() {
     List<Member> members = this.memberService.findAll();
-    Set<Member> setOfMembers = new HashSet<>(members);
 
     UserConsumerDTO[] users =
         this.restTemplate.getForEntity(API_URL + "/" + RESOURCE, UserConsumerDTO[].class).getBody();
 
-    for (UserConsumerDTO user : users) {
-      setOfMembers.add(user.transformToMember());
-    }
-
-    List<Member> newMembers = getOnlyNewMembers(setOfMembers);
+    List<Member> newMembers = getOnlyNewMembers(users, members);
 
     for (int i = 0; i < newMembers.size(); i++) {
       UserConsumerDTO completedUser = this.findById(newMembers.get(i).getUuid());
@@ -64,7 +62,11 @@ public class MemberConsumerService {
     memberService.createAll(newMembers);
   }
 
-  private List<Member> getOnlyNewMembers(Set<Member> setOfMembers) {
+  private List<Member> getOnlyNewMembers(UserConsumerDTO[] users, List<Member> members) {
+    Set<Member> setOfMembers = new HashSet<>(members);
+    for (UserConsumerDTO user : users) {
+      setOfMembers.add(user.transformToMember());
+    }
     return setOfMembers.stream().filter(member -> member.getId() == null)
         .collect(Collectors.toList());
   }

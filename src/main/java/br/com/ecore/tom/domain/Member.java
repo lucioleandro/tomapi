@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Type;
 
@@ -24,7 +23,6 @@ public class Member implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @NotNull
   @Column(nullable = false)
   @Type(type = "org.hibernate.type.UUIDCharType")
   private UUID uuid;
@@ -48,6 +46,10 @@ public class Member implements Serializable {
   private Role role;
 
   public Member() {}
+
+  public Member(UUID uuid) {
+    this.uuid = uuid;
+  }
 
   public Member(Integer id, UUID uuid, String firstName, String lastName, String displayName,
       String avatarUrl, String location, Role role) {
