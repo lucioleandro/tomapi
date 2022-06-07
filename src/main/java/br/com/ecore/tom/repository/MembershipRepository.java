@@ -12,7 +12,7 @@ public interface MembershipRepository extends JpaRepository<Membership, Integer>
 
   Optional<Membership> findByUuid(UUID externalId);
 
-  @Query("SELECT ms from MemberShip ms where ms.member.role.uuid = ?1")
+  @Query("SELECT ms from Membership ms where ms.member.role.uuid = ?1")
   List<MembershipDTO> findByRoleExternalId(UUID externalId);
 
 }
