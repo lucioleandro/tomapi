@@ -46,4 +46,10 @@ public class RoleController {
     return ResponseEntity.ok(new RoleDTO(role));
   }
 
+  @GetMapping("/membership/{membershipExternalId}")
+  public ResponseEntity<RoleDTO> lookUpRoleByMembership(@PathVariable UUID membershipExternalId) {
+    Role role = service.findByMembershipExternalId(membershipExternalId);
+    return ResponseEntity.ok(new RoleDTO(role));
+  }
+
 }

@@ -27,6 +27,11 @@ public class MemberShipService {
         .orElseThrow(() -> new EntityNotFoundException(externalId, MemberShip.class));
   }
 
+  public MemberShip findByExternalId(UUID externalId) {
+    return repository.findByUuid(externalId)
+        .orElseThrow(() -> new EntityNotFoundException(externalId, MemberShip.class));
+  }
+
   public List<MemberShipDTO> findByRoleExternalId(UUID externalId) {
     return repository.findByRoleExternalId(externalId);
   }

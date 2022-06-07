@@ -16,6 +16,9 @@ public class RoleService {
   @Autowired
   private RoleRepository repository;
 
+  @Autowired
+  private MemberShipService membserShipService;
+
   @Transactional
   public Role create(Role role) {
     role.setUuid(UUID.randomUUID());
@@ -34,5 +37,9 @@ public class RoleService {
     return repository.findByUuid(externalId)
         .orElseThrow(() -> new EntityNotFoundException(externalId, Role.class));
 
+  }
+
+  public Role findByMembershipExternalId(UUID membershipExternalId) {
+    return membserShipService.findByExternalId(membershipExternalId).getMember().getRole();
   }
 }
