@@ -26,7 +26,7 @@ public class RoleController {
   private RoleService service;
 
   @PostMapping
-  public ResponseEntity<RoleDTO> createRole(@Valid @RequestBody Role role,
+  public ResponseEntity<RoleDTO> createRole(@Valid @RequestBody RoleDTO role,
       UriComponentsBuilder uriBuilder) {
     APIExceptionUtils.assertValidPost(role.getId());
     Role savedRole = service.create(role);

@@ -4,11 +4,19 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import br.com.ecore.tom.domain.Role;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class RoleDTO {
 
   private UUID id;
+
+  @NotEmpty
+  @Size(min = 2, max = 50)
   private String name;
+
+  @NotEmpty
+  @Size(min = 10, max = 255)
   private String description;
 
   public RoleDTO(UUID id, String name, String description) {

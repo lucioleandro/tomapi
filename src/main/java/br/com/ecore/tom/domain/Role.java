@@ -27,13 +27,9 @@ public class Role implements Serializable {
   @Type(type = "org.hibernate.type.UUIDCharType")
   private UUID uuid;
 
-  @NotEmpty
-  @Size(max = 50, min = 2)
   @Column(nullable = false)
   private String name;
 
-  @NotEmpty
-  @Size(max = 255)
   @Column(nullable = false)
   private String description;
 
