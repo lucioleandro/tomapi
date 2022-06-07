@@ -3,9 +3,10 @@ package br.com.ecore.tom.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import br.com.ecore.tom.domain.Member;
 import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
@@ -47,6 +48,7 @@ public class MemberService {
     return repository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Member.class));
   }
 
+  @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
   public Member findByExternalId(UUID externalId) throws EntityNotFoundException {
     Optional<Member> optionalMember = repository.findByUuid(externalId);
     if (optionalMember.isPresent()) {

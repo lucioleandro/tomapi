@@ -41,9 +41,9 @@ public class MemberController {
     return ResponseEntity.ok(new MemberDTO(updatedMember));
   }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<MemberDTO> buscaMemberPorId(@PathVariable Integer id) {
-    Member member = service.findById(id);
+  @GetMapping("/{externalId}")
+  public ResponseEntity<MemberDTO> buscaMemberPorId(@PathVariable UUID externalId) {
+    Member member = service.findByExternalId(externalId);
     return ResponseEntity.ok(new MemberDTO(member));
   }
 
