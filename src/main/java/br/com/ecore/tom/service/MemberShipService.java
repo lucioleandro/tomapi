@@ -2,6 +2,7 @@ package br.com.ecore.tom.service;
 
 import java.util.List;
 import java.util.UUID;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.ecore.tom.domain.MemberShip;
@@ -15,6 +16,7 @@ public class MemberShipService {
   @Autowired
   private MemberShipRepository repository;
 
+  @Transactional
   public MemberShip create(MemberShip memberShip) {
     memberShip.setUuid(UUID.randomUUID());
     return repository.save(memberShip);

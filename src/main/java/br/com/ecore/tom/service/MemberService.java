@@ -3,6 +3,7 @@ package br.com.ecore.tom.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.ecore.tom.domain.Member;
@@ -23,14 +24,17 @@ public class MemberService {
   @Autowired
   private MemberConsumerService memberConsumerService;
 
+  @Transactional
   public Member create(Member member) {
     return repository.save(member);
   }
 
+  @Transactional
   public void createAll(List<Member> membersToSave) {
     repository.saveAll(membersToSave);
   }
 
+  @Transactional
   public Member assignRole(UUID memberExternalId, UUID roleExternalId) {
     Member member = this.findByExternalId(memberExternalId);
     Role role = roleService.findByExternalId(roleExternalId);
