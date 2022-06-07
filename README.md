@@ -40,6 +40,10 @@
 
 - Melhorar para busca paginada
 
+- Refatorar métodos fetchs
+
+- Criar interfaces para os jobs
+
 
 ## Outros
 

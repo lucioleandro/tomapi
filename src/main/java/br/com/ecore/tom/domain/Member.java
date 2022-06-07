@@ -28,24 +28,46 @@ public class Member implements Serializable {
   @Type(type = "org.hibernate.type.UUIDCharType")
   private UUID uuid;
 
+  @Column(nullable = true, length = 30)
+  private String firstName;
+
+  @Column(nullable = true, length = 30)
+  private String lastName;
+
   @NotEmpty
-  @Size(max = 50, min = 3)
+  @Size(max = 30, min = 3)
   @Column(nullable = false)
   private String displayName;
+
+  private String avatarUrl;
+
+  private String location;
 
   @ManyToOne
   private Role role;
 
-  public Member(Integer id, UUID uuid, String displayName) {
+  public Member() {}
+
+  public Member(Integer id, UUID uuid, String firstName, String lastName, String displayName,
+      String avatarUrl, String location, Role role) {
     this.id = id;
     this.uuid = uuid;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.displayName = displayName;
+    this.avatarUrl = avatarUrl;
+    this.location = location;
+    this.role = role;
   }
 
-  public Member(Integer id, UUID uuid, String displayName, Role role) {
-    this.id = id;
+  public Member(UUID uuid, String firstName, String lastName, String displayName, String avatarUrl,
+      String location, Role role) {
     this.uuid = uuid;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.displayName = displayName;
+    this.avatarUrl = avatarUrl;
+    this.location = location;
     this.role = role;
   }
 
@@ -54,7 +76,13 @@ public class Member implements Serializable {
     this.displayName = displayName;
   }
 
-  public Member() {}
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
+  }
 
   public Integer getId() {
     return id;
@@ -64,16 +92,24 @@ public class Member implements Serializable {
     return uuid;
   }
 
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
   public String getDisplayName() {
     return displayName;
   }
 
-  public Role getRole() {
-    return role;
+  public String getAvatarUrl() {
+    return avatarUrl;
   }
 
-  public void setRole(Role role) {
-    this.role = role;
+  public String getLocation() {
+    return location;
   }
 
   @Override

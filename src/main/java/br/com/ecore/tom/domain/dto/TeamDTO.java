@@ -7,18 +7,15 @@ public class TeamDTO {
 
   private UUID id;
   private String name;
-  private RoleDTO role;
 
-  public TeamDTO(UUID id, String name, RoleDTO role) {
+  public TeamDTO(UUID id, String name) {
     this.id = id;
     this.name = name;
-    this.role = role;
   }
 
   public TeamDTO(Team team) {
     this.id = team.getUuid();
     this.name = team.getName();
-    this.role = new RoleDTO(team.getRole());
   }
 
   public UUID getId() {
@@ -27,10 +24,6 @@ public class TeamDTO {
 
   public String getName() {
     return name;
-  }
-
-  public RoleDTO getRole() {
-    return role;
   }
 
 }

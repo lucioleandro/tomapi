@@ -30,6 +30,23 @@ CREATE TABLE `role` (
   CONSTRAINT `PK_role`PRIMARY KEY (`id` ASC)
 );
 
+-- Table `member`
+
+DROP TABLE IF EXISTS `member`;
+
+CREATE TABLE `member` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(30),
+  `last_name` varchar(30),
+  `display_name` varchar(30) NOT NULL,
+  `avatar_url` varchar(255),
+  `location` varchar(50),
+  `role_id` INT DEFAULT NULL,
+  `uuid` binary(36) NOT NULL,
+  CONSTRAINT `PK_member` PRIMARY KEY (`id` ASC),
+  CONSTRAINT `FK_member_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE Restrict ON UPDATE Restrict
+);
+
 -- Table `team`
 
 DROP TABLE IF EXISTS `team`;
@@ -37,23 +54,10 @@ DROP TABLE IF EXISTS `team`;
 CREATE TABLE `team` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `role_id` INT DEFAULT NULL,
+  `team_lead_id` INT,
   `uuid` binary(36) NOT NULL,
   CONSTRAINT `PK_team` PRIMARY KEY (`id` ASC),
-  CONSTRAINT `FK_team_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE Restrict ON UPDATE Restrict
-);
-
--- Table `member`
-
-DROP TABLE IF EXISTS `member`;
-
-CREATE TABLE `member` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `display_name` varchar(50) NOT NULL,
-  `role_id` INT DEFAULT NULL,
-  `uuid` binary(36) NOT NULL,
-  CONSTRAINT `PK_member` PRIMARY KEY (`id` ASC),
-  CONSTRAINT `FK_member_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE Restrict ON UPDATE Restrict
+  CONSTRAINT `FK_team_member` FOREIGN KEY (`team_lead_id`) REFERENCES `member` (`id`) ON DELETE Restrict ON UPDATE Restrict
 );
 
 

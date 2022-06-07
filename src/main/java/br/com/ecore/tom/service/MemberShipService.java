@@ -1,5 +1,6 @@
 package br.com.ecore.tom.service;
 
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.ecore.tom.domain.MemberShip;
@@ -13,6 +14,7 @@ public class MemberShipService {
   private MemberShipRepository repository;
 
   public MemberShip create(MemberShip memberShip) {
+    memberShip.setUuid(UUID.randomUUID());
     return repository.save(memberShip);
   }
 

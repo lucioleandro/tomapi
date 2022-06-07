@@ -30,19 +30,30 @@ public class Team implements Serializable {
   private String name;
 
   @ManyToOne
-  private Role role;
+  private Member teamLead;
 
-  public Team(Integer id, UUID uuid, String name) {
+  public Team() {}
+
+  public Team(Integer id, UUID uuid, String name, Member teamLead) {
     this.id = id;
+    this.uuid = uuid;
+    this.name = name;
+    this.teamLead = teamLead;
+  }
+
+  public Team(UUID uuid, String name, Member teamLead) {
+    this.uuid = uuid;
+    this.name = name;
+    this.teamLead = teamLead;
+  }
+
+  public Team(UUID uuid, String name) {
     this.uuid = uuid;
     this.name = name;
   }
 
-  public Team(Integer id, UUID uuid, String name, Role role) {
-    this.id = id;
-    this.uuid = uuid;
-    this.name = name;
-    this.role = role;
+  public static long getSerialversionuid() {
+    return serialVersionUID;
   }
 
   public Integer getId() {
@@ -57,8 +68,12 @@ public class Team implements Serializable {
     return name;
   }
 
-  public Role getRole() {
-    return role;
+  public Member getTeamLead() {
+    return teamLead;
+  }
+
+  public void setTeamLead(Member teamLead) {
+    this.teamLead = teamLead;
   }
 
   @Override
@@ -78,7 +93,7 @@ public class Team implements Serializable {
       return false;
 
     Team other = (Team) obj;
-    return Objects.equals(uuid, other.uuid);
+    return uuid.equals(other.uuid);
   }
 
   @Override

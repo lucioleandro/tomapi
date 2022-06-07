@@ -17,6 +17,14 @@ public class TeamService {
     return repository.save(team);
   }
 
+  public Team update(Team team) {
+    return repository.save(team);
+  }
+
+  public List<Team> createAll(List<Team> teams) {
+    return repository.saveAll(teams);
+  }
+
   public List<Team> findAll() {
     return repository.findAll();
   }
@@ -24,5 +32,6 @@ public class TeamService {
   public Optional<Team> findById(Integer id) {
     return repository.findById(id);
   }
+
 
 }

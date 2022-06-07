@@ -17,6 +17,8 @@ import br.com.ecore.tom.service.MemberService;
 @Service
 public class MemberConsumerService {
 
+  private final String RESOURCE = "users";
+
   @Value("${app.API_URL}")
   private String API_URL;
 
@@ -32,8 +34,7 @@ public class MemberConsumerService {
   }
 
   public Member fetchMemberById(UUID id) {
-    UserConsumerDTO user =
-        this.restTemplate.getForObject(API_URL + "/users/" + id, UserConsumerDTO.class);
+    UserConsumerDTO user = findById(id);
     if (user == null) {
       throw new EntityNotFoundException(id, Member.class);
     }
@@ -46,13 +47,21 @@ public class MemberConsumerService {
     Set<Member> setOfMembers = new HashSet<>(members);
 
     UserConsumerDTO[] users =
-        this.restTemplate.getForEntity(API_URL + "/users/", UserConsumerDTO[].class).getBody();
+        this.restTemplate.getForEntity(API_URL + "/" + RESOURCE, UserConsumerDTO[].class).getBody();
 
     for (UserConsumerDTO user : users) {
       setOfMembers.add(user.transformToMember());
     }
 
-    memberService.createAll(getOnlyNewMembers(setOfMembers));
+    List<Member> newMembers = getOnlyNewMembers(setOfMembers);
+
+    for (int i = 0; i < newMembers.size(); i++) {
+      UserConsumerDTO completedUser = this.findById(newMembers.get(i).getUuid());
+      if (completedUser != null) {
+        newMembers.set(i, completedUser.transformToMember());
+      }
+    }
+    memberService.createAll(newMembers);
   }
 
   private List<Member> getOnlyNewMembers(Set<Member> setOfMembers) {
@@ -60,5 +69,9 @@ public class MemberConsumerService {
         .collect(Collectors.toList());
   }
 
+  private UserConsumerDTO findById(UUID id) {
+    return this.restTemplate.getForObject(API_URL + "/" + RESOURCE + "/" + id,
+        UserConsumerDTO.class);
+  }
 
 }

@@ -3,7 +3,6 @@ package br.com.ecore.tom.domain;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +19,6 @@ public class MemberShip implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column(nullable = false)
   @Type(type = "org.hibernate.type.UUIDCharType")
   private UUID uuid;
 
@@ -37,12 +35,21 @@ public class MemberShip implements Serializable {
     this.team = team;
   }
 
+  public MemberShip(Member member, Team team) {
+    this.member = member;
+    this.team = team;
+  }
+
   public Integer getId() {
     return id;
   }
 
   public UUID getUuid() {
     return uuid;
+  }
+
+  public void setUuid(UUID uuid) {
+    this.uuid = uuid;
   }
 
   public Member getMember() {
