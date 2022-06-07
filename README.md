@@ -44,6 +44,8 @@
 
 - Criar interfaces para os jobs
 
+- Se der tempo paginar as consultas
+
 
 ## Outros
 

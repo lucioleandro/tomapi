@@ -6,31 +6,31 @@ import br.com.ecore.tom.domain.MemberShip;
 public class MemberShipDTO {
 
   private UUID id;
-  private MemberDTO memberDTO;
-  private TeamDTO teamDTO;
+  private MemberDTO member;
+  private TeamDTO team;
 
   public MemberShipDTO(UUID id, MemberDTO memberDTO, TeamDTO teamDTO) {
     this.id = id;
-    this.memberDTO = memberDTO;
-    this.teamDTO = teamDTO;
+    this.member = memberDTO;
+    this.team = teamDTO;
   }
 
   public MemberShipDTO(MemberShip memberShip) {
     this.id = memberShip.getUuid();
-    this.memberDTO = new MemberDTO(memberShip.getMember());
-    this.teamDTO = new TeamDTO(memberShip.getTeam());
+    this.member = new MemberDTO(memberShip.getMember());
+    this.team = new TeamDTO(memberShip.getTeam());
   }
 
   public UUID getId() {
     return id;
   }
 
-  public MemberDTO getMemberDTO() {
-    return memberDTO;
+  public MemberDTO getMember() {
+    return member;
   }
 
-  public TeamDTO getTeamDTO() {
-    return teamDTO;
+  public TeamDTO getTeam() {
+    return team;
   }
 
 }

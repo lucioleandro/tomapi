@@ -65,7 +65,6 @@ public class TeamConsumerService {
     List<Team> savedTeams = teamService.createAll(getOnlyNewTeams(setOfTeams));
 
     for (int i = 0; i < savedTeams.size(); i++) {
-      System.out.println("Tapa: " + i);
       Team savedTeam = savedTeams.get(i);
       TeamConsumerDTO completedTeamDTO = this.findById(savedTeam.getUuid());
 

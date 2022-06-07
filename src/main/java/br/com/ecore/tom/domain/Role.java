@@ -35,6 +35,8 @@ public class Role implements Serializable {
   @Column(nullable = false)
   private String description;
 
+  public Role() {}
+
   public Role(Integer id, UUID uuid, String name, String description) {
     this.id = id;
     this.uuid = uuid;
@@ -49,8 +51,6 @@ public class Role implements Serializable {
   public Role(Integer id) {
     this.id = id;
   }
-
-  public Role() {}
 
   public Integer getId() {
     return id;

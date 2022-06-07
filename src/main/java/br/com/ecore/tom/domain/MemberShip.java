@@ -28,6 +28,12 @@ public class MemberShip implements Serializable {
   @ManyToOne
   private Team team;
 
+  public MemberShip() {}
+  
+  public MemberShip(Integer id) {
+    this.id = id;
+  }
+
   public MemberShip(Integer id, UUID uuid, Member member, Team team) {
     this.id = id;
     this.uuid = uuid;
