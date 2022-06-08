@@ -1,50 +1,95 @@
-# Título do projeto
+# TOM API
 
-Um parágrafo da descrição do projeto vai aqui
+#### T -> means team
+#### O -> means organizer
+#### M -> means Manager
 
-## 🚀 Começando
+... Yes, I know
 
-Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
-
-Consulte **Implantação** para saber como implantar o projeto.
+## 🚀 Starting
 
 ### 📋 Pré-requisitos
 
-De que coisas você precisa para instalar o software e como instalá-lo?
+```
+Docker
+```
+The project contains a dockerfile and a docker-compose file, then you must have the Docker installed on your machine.
+
+Considering you have the docker and docker-compose installed on your machine, what you need to do is:
+
+Go to the root of the project, and run:
 
 ```
-Dar exemplos
+docker-compose up -d
 ```
 
-### 🔧 Instalação
+It will build and up two docker containers, the first is for the database and the second for the TOM API
 
-Uma série de exemplos passo-a-passo que informam o que você deve executar para ter um ambiente de desenvolvimento em execução.
+You can access the TOM API by using the URL: http://localhost:8080/tomapi/
 
-Diga como essa etapa será:
+You can access Swagger documentation available on: http://localhost:8080/tomapi/swagger-ui.html#/
+
+
+Consulte **Implantação** para saber como implantar o projeto.
+
+## ⚙️🛠️ Some informations about the project
+
+The project Was built using:
+
+- Java 8
+- Springboot
+- Mysql 
+- JUnit
+- Swagger
+
+
+### 🧠 My Approach
+
+To build this project I had to consider an existing application which provides resource data about users and team, at the first moment I considered using a microservice application however I had just few information about the project and its purpose,  then I chose following with a monolithic application strategy with some aspects of the clean architecture, so If I need change the project to a microservice architecture in the future it will be easy.
+
+
+After deciding between microservice and monolithic architecture I got concerned about how to get, handle and keep the data provided for the other application because performing integrations between APIs is not a trivial task,  and thinking about it I got some points:
+
+ - How much is getting data in the other application?
+ - If the other application stop working?
+ - Do we have some control over the other application?
+ - Will there be a future sync between both applications?
+ - Is the other application in constant improvement or is it a final implementation?
+ - How ensure real-time access to the data in the other application.
+
+
+As proof of concept, I built a solution based on scheduled jobs and real-time searches to retrieve and keep the data for TOM’s database.
+
+Talking about the scheduled jobs I assume the risk of thinking that there will be good times to run the jobs, in the other words there will be moments when the application will be not used or almost not used. Since the application will be running inside a company to manage teams and members, it probably is a low risk. For the same reason, I also assume that the application is not a really critical system inside the company.
+
+Considering my observations I built four scheduled jobs:
+
+ - Fetch Members Job
+ - Fetch Teams Job
+ - Delete Members Job
+ - Delete Teams Job
+
+**Fetch Members Job**
+
+This job is responsible for doing a requisition to the other application and retrieving all necessary data to instantiate a Member in TOM application, it is: first name, last name, display name, location, avatar, and uuid and afterward save the data to TOM’s database.
+
+The algorithm built for this task has the following Mathematical Equation when the worst case:
+```_
+ (4 + n + 3n)
+```
+
+Having these asymptotic analyses above and considering a server executing 8.000 operations per second + the worst case we have today which is 400 users the first time the job is run the algorithm would take:
 
 ```
-Dar exemplos
+  4 + 400  + 3 * 400 = 1604 operations -> 1604 operations / 8000 = 0.2 seconds to execute the algorithm.
 ```
 
-E repita:
+That is a such good algorithm because it is a linear one.
 
-```
-Até finalizar
-```
+OBS: For sure, these asymptotic analyses don’t take into consideration the request and response time for the other application, time to open, retrieve, record, and commit to the database, and also don’t consider micro-operations such as reading and writing in the machine memory.
 
-Termine com um exemplo de como obter dados do sistema ou como usá-los para uma pequena demonstração.
+To sum up, the job also contains a good algorithm and we have to consider that there will not be hundreds of new teams and members every day, then this job will be really efficient.
 
-## ⚙️ Executando os testes
-
-Explicar como executar os testes automatizados para este sistema.
-
-### 🔩 Analise os testes de ponta a ponta
-
-Explique que eles verificam esses testes e porquê.
-
-```
-Dar exemplos
-```
 
 ### ⌨️ E testes de estilo de codificação
 
@@ -58,7 +103,7 @@ Dar exemplos
 
 Adicione notas adicionais sobre como implantar isso em um sistema ativo
 
-## 🛠️ Construído com
+## ⚙️ Construído com
 
 Mencione as ferramentas que você usou para criar seu projeto
 
