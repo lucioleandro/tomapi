@@ -2,6 +2,7 @@ package br.com.ecore.tom.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +33,12 @@ public class TeamService {
     return repository.findAll();
   }
 
-  public Optional<Team> findById(Integer id) {
+  public Optional<Team> findByeId(Integer id) {
     return repository.findById(id);
+  }
+
+  public Optional<Team> findByeExternalId(UUID id) {
+    return repository.findByUuid(id);
   }
 
 }

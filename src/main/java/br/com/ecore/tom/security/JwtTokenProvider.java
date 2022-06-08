@@ -34,11 +34,11 @@ public class JwtTokenProvider {
     Map<String, Object> claims = new HashMap<>();
 
     claims.put("id", userPrincipal.getId());
-    claims.put("nome", userPrincipal.getNome());
+    claims.put("nome", userPrincipal.getName());
     claims.put("login", userPrincipal.getLogin());
     claims.put("email", userPrincipal.getEmail());
 
-    return Jwts.builder().setSubject(userPrincipal.getNome()).setClaims(claims)
+    return Jwts.builder().setSubject(userPrincipal.getName()).setClaims(claims)
         .setIssuedAt(Date.from(OffsetDateTime.now().toInstant()))
         .setExpiration(Date.from(expiryDate.toInstant()))
         .signWith(SignatureAlgorithm.HS256, jwtSecret).compact();

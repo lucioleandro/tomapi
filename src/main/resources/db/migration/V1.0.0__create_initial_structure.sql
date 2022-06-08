@@ -27,7 +27,8 @@ CREATE TABLE `role` (
   `name` varchar(50) NOT NULL,
   `description` varchar(255) NOT NULL,
   `uuid` binary(36) DEFAULT NULL,
-  CONSTRAINT `PK_role`PRIMARY KEY (`id` ASC)
+  CONSTRAINT `PK_role`PRIMARY KEY (`id` ASC),
+  CONSTRAINT UC_role_name UNIQUE (name)
 );
 
 -- Table `member`

@@ -20,8 +20,8 @@ public class MembershipController {
   private MembershipService service;
 
   @GetMapping("/{id}")
-  public ResponseEntity<Membership> buscaMemberPorId(@PathVariable Integer externalId) {
-    Membership memberShip = service.findById(externalId);
+  public ResponseEntity<Membership> lookupByExternalId(@PathVariable UUID externalId) {
+    Membership memberShip = service.findByExternalId(externalId);
     return ResponseEntity.ok(memberShip);
   }
 

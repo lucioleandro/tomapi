@@ -6,7 +6,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResponseErrorHandler;
-import br.com.ecore.tom.exceptions.BusinessException;
+import br.com.ecore.tom.exceptions.IntegrationException;
 
 @Component
 public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
@@ -27,7 +27,7 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
     } else if (httpResponse.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR) {
       // Handle CLIENT_ERROR
       if (httpResponse.getStatusCode() == HttpStatus.NOT_FOUND) {
-        throw new BusinessException(null); // TODO: Mudar esta exception
+        throw new IntegrationException("Error trying fetch data", 500L);
       }
     }
   }

@@ -28,20 +28,20 @@ public class RoleController {
   public ResponseEntity<RoleDTO> createRole(@Valid @RequestBody RoleDTO roleDTO,
       UriComponentsBuilder uriBuilder) {
     Role role = roleDTO.transformToRole();
-    APIExceptionUtils.assertValidPost(role.getId());
+    APIExceptionUtils.assertValidPost(role);
     Role savedRole = service.create(role);
     URI uri = uriBuilder.path("/role/{id}").buildAndExpand(savedRole.getUuid()).toUri();
     return ResponseEntity.created(uri).body(new RoleDTO(savedRole));
   }
 
   @GetMapping("/{externalId}")
-  public ResponseEntity<RoleDTO> lookUpRoleByExternalId(@PathVariable UUID externalId) {
+  public ResponseEntity<RoleDTO> lookupByExternalId(@PathVariable UUID externalId) {
     Role role = service.findByExternalId(externalId);
     return ResponseEntity.ok(new RoleDTO(role));
   }
 
   @GetMapping("/membership/{membershipExternalId}")
-  public ResponseEntity<RoleDTO> lookUpRoleByMembership(@PathVariable UUID membershipExternalId) {
+  public ResponseEntity<RoleDTO> lookupRoleByMembership(@PathVariable UUID membershipExternalId) {
     Role role = service.findByMembershipExternalId(membershipExternalId);
     return ResponseEntity.ok(new RoleDTO(role));
   }

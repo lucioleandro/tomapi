@@ -9,11 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "role")
-public class Role implements Serializable {
+@Table(name = "role",
+    uniqueConstraints = @UniqueConstraint(columnNames = "name", name = "UC_role_name"))
+public class Role implements Serializable, IEntity {
 
   private static final long serialVersionUID = 1L;
 

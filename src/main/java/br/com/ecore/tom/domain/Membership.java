@@ -14,7 +14,7 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "membership")
-public class Membership implements Serializable {
+public class Membership implements Serializable, IEntity {
 
   private static final long serialVersionUID = 1L;
 

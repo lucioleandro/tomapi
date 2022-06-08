@@ -7,43 +7,43 @@ public class EntityNotFoundException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
   private final Class<?> classe;
-  private final Object idBuscado;
+  private final Object serchedId;
 
-  public EntityNotFoundException(Integer idBuscado, Class<?> classe) {
-    super("Não foi encontrada uma instância da classe " + classe.getName() + " com o id: "
-        + idBuscado);
-    this.idBuscado = idBuscado;
+  public EntityNotFoundException(Integer serchedId, Class<?> classe) {
+    super("An instance of the class " + classe.getName() + " with id: " + serchedId
+        + " was not found.");
+    this.serchedId = serchedId;
     this.classe = classe;
   }
 
-  public EntityNotFoundException(UUID idBuscado, Class<?> classe) {
-    super("Não foi encontrada uma instância da classe " + classe.getName() + " com o id: "
-        + idBuscado);
-    this.idBuscado = idBuscado;
+  public EntityNotFoundException(UUID serchedId, Class<?> classe) {
+    super("An instance of the class " + classe.getName() + " with id: " + serchedId
+        + " was not found.");
+    this.serchedId = serchedId;
     this.classe = classe;
   }
 
-  public EntityNotFoundException(String message, Throwable cause, Integer idBuscado,
+  public EntityNotFoundException(String message, Throwable cause, Integer serchedId,
       Class<?> classe) {
     super(message, cause);
-    this.idBuscado = idBuscado;
+    this.serchedId = serchedId;
     this.classe = classe;
   }
 
-  public EntityNotFoundException(String message, Integer ididBuscado, Class<?> classe) {
+  public EntityNotFoundException(String message, Integer idserchedId, Class<?> classe) {
     super(message);
-    this.idBuscado = ididBuscado;
+    this.serchedId = idserchedId;
     this.classe = classe;
   }
 
-  public EntityNotFoundException(Throwable cause, Integer idBuscado, Class<?> classe) {
+  public EntityNotFoundException(Throwable cause, Integer serchedId, Class<?> classe) {
     super(cause);
-    this.idBuscado = idBuscado;
+    this.serchedId = serchedId;
     this.classe = classe;
   }
 
   public Object getId() {
-    return idBuscado;
+    return serchedId;
   }
 
   public Class<?> getClasse() {
