@@ -18,7 +18,7 @@ import br.com.ecore.tom.exceptions.APIExceptionUtils;
 import br.com.ecore.tom.service.RoleService;
 
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/roles")
 public class RoleController {
 
   @Autowired

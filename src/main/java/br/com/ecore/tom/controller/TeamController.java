@@ -13,7 +13,7 @@ import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.service.TeamService;
 
 @RestController
-@RequestMapping("/team")
+@RequestMapping("/teams")
 public class TeamController {
 
   @Autowired

@@ -13,7 +13,7 @@ import br.com.ecore.tom.domain.dto.MembershipDTO;
 import br.com.ecore.tom.service.MembershipService;
 
 @RestController
-@RequestMapping("/membership")
+@RequestMapping("/memberships")
 public class MembershipController {
 
   @Autowired
