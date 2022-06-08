@@ -18,14 +18,26 @@ services:
     volumes:
       - db-mysql-dev:/var/lib/mysql
 
-  adminer:
-    container_name: adminer
-    image: adminer
-    restart: always
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tomapi
+    networks:
+      - tom-dev
     ports:
-      - 8080:8080
+      - "8080:8080"
     expose:
       - 8080
+    depends_on:
+      - db
+    links:
+      - db:mysqldb
+    environment:
+      - TOM_DATABASE_URL=jdbc:mysql://mysqldb:3306/tomdb?useSSL=false
+      - TOM_DATABASE_USERNAME=root
+      - TOM_DATABASE_PASSWORD=ecore100*
+      - API_URL=https://cgjresszgg.execute-api.eu-west-1.amazonaws.com
 
 volumes:
   db-mysql-dev:
