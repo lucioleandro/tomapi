@@ -1,7 +1,6 @@
 package br.com.ecore.tom.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +34,8 @@ public class RoleController {
     return ResponseEntity.created(uri).body(new RoleDTO(savedRole));
   }
 
-  @GetMapping
-  public ResponseEntity<List<RoleDTO>> listAllRoles() {
-    List<Role> roles = service.findAll();
-    return ResponseEntity.ok(RoleDTO.convertList(roles));
-  }
-
   @GetMapping("/{externalId}")
-  public ResponseEntity<RoleDTO> lookUpRoleById(@PathVariable UUID externalId) {
+  public ResponseEntity<RoleDTO> lookUpRoleByExternalId(@PathVariable UUID externalId) {
     Role role = service.findByExternalId(externalId);
     return ResponseEntity.ok(new RoleDTO(role));
   }
