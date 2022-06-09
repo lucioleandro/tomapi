@@ -16,13 +16,12 @@ public class TeamsConsumerJob {
 
   // Será sempre executado aos 0 segundos do minuto 0 da hora 3 de todos os dias de todos os meses,
   // independente do dia da semana
-  // TODO Colocar a hora certa
-  private static final String CRON = "0 50 10 * * ?";
+  private static final String CRON = "0 30 01 * * ?";
 
   @Autowired
   private TeamConsumerService consumerService;
 
-  // TODO: configuração para rodar em apenas uma instância (olhar proconsumidor)
+  // TODO: configuração para rodar em apenas uma instância
   @Scheduled(cron = CRON)
   public void executeSync() {
     logger.info("Starting: Teams Consumer Job");
