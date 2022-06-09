@@ -10,7 +10,7 @@
 - [**SUGGESTION FOR IMPROVEMENT IN THE TEAM OR USER SERVICES**](#-suggestion-for-improvement-in-the-team-or-user-services)..
 - [**SUGGESTION FOR IMPROVEMENT OF TOM APPLICATION**](#-suggestion-for-improvement-of-tom-aplication)………………..
 - [**WHAT HAPPENS IF THE DATA YOU ARE USING GETS DELETED?**](#-what-happens-if-the-data-you-are-using-gets-deleted).............
-- [**Acknowledgments**]…………………………………………………………………..
+- [**Acknowledgments**](Acknowledgments…………………………………………………………………..)…………………………………………………………………..
 
 
 # TOM API
