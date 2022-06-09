@@ -112,9 +112,9 @@ This job is responsible for doing a requisition to the other application and ret
 
 The algorithm built for this task has the following Mathematical Equation when the worst case:
 
- 5 + ( n + dt) + 6n + 6 x 7
+ 5 + ( n + act) + 6n + 6 x 7
 
-dt = amount of current data on TOM’s database
+act = amount of current data on TOM’s database
 
 Having these asymptotic analyses above and considering a server executing 8.000 operations per second + the worst case we have today which is 100 teams the first time the job is ran and considering the amount of teams already saved in TOM’s database being 500 the algorithm would take:
 
