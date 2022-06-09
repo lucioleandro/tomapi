@@ -10,6 +10,7 @@
 - [**SUGGESTION FOR IMPROVEMENT IN THE TEAM OR USER SERVICES**](#-suggestion-for-improvement-in-the-team-or-user-services)..
 - [**SUGGESTION FOR IMPROVEMENT OF TOM APPLICATION**](#-suggestion-for-improvement-of-tom-aplication)………………..
 - [**WHAT HAPPENS IF THE DATA YOU ARE USING GETS DELETED?**](#-what-happens-if-the-data-you-are-using-gets-deleted).............
+- [**Observations**](#some-observations)…………………………………………………………………………
 - [**Acknowledgments**](Acknowledgments…………………………………………………………………..)…………………………………………………………………..
 
 
@@ -176,7 +177,11 @@ Adicione notas adicionais sobre como implantar isso em um sistema ativo
 
 If the other application data is deleted, the system will keep working because we retrieve data and save it in the Tom's database
 
+## Some observations
 
+ - I chose don't extract the two common attributes to a base entity because I think these two attributes don’t add behavior that is worth extracting, Instead of it, I preferred to write an Interface to make use of the concept of programming thinking on interfafaces.
+
+ - I provide security but I let the endpoints open.
 
 ## 🎁 ❤️ Thank you
 
