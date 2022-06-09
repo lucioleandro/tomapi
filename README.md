@@ -10,6 +10,7 @@
 - [**SUGGESTION FOR IMPROVEMENT IN THE TEAM OR USER SERVICES**](#-suggestion-for-improvement-in-the-team-or-user-services)..
 - [**SUGGESTION FOR IMPROVEMENT OF TOM APPLICATION**](#-suggestion-for-improvement-of-tom-aplication)………………..
 - [**WHAT HAPPENS IF THE DATA YOU ARE USING GETS DELETED?**](#-what-happens-if-the-data-you-are-using-gets-deleted).............
+- [**Observations**](#some-observations)…………………………………………………………………………
 - [**Acknowledgments**](Acknowledgments…………………………………………………………………..)…………………………………………………………………..
 
 
@@ -81,8 +82,8 @@ Considering my observations I built four scheduled jobs:
 
  - Fetch Members Job
  - Fetch Teams Job
- - Delete Members Job
- - Delete Teams Job
+ - Delete Members Job - (actually, I haven't built it but, it was my plan)
+ - Delete Teams Job - (actually, I haven't built it but, it was my plan)
 
 ##### **Fetch Members Job**
 
@@ -112,9 +113,9 @@ This job is responsible for doing a requisition to the other application and ret
 
 The algorithm built for this task has the following Mathematical Equation when the worst case:
 
- 5 + ( n + dt) + 6n + 6 x 7
+ 5 + ( n + act) + 6n + 6 x 7
 
-dt = amount of current data on TOM’s database
+act = amount of current data on TOM’s database
 
 Having these asymptotic analyses above and considering a server executing 8.000 operations per second + the worst case we have today which is 100 teams the first time the job is ran and considering the amount of teams already saved in TOM’s database being 500 the algorithm would take:
 
@@ -167,79 +168,27 @@ Adicione notas adicionais sobre como implantar isso em um sistema ativo
 
 ## 📦 Suggestion for improvement of TOM aplication
 
-- It was in my plan to use Apache Camel to make the integration because it is scalable and  provides quickly and easily integrate of various systems consuming or producing data
-
-
+- It was in my plan to use Apache Camel to make the integration because it is scalable and  provides quickly and easily integrate of various systems consuming or producing data.
+- Mabe implement jobs to delete data based on the other application.
+- Maybe turn the project into microservice architecture, but I need to be sure about the purpose of the application and the other application.
+- The cron definitions are hardcoded, move them to environment variables.
 
 ## 🤯 What happens if the data you are using gets deleted?
 
 If the other application data is deleted, the system will keep working because we retrieve data and save it in the Tom's database
 
+## Some observations
 
+ - I chose don't extract the two common attributes to a base entity because I think these two attributes don’t add behavior that is worth extracting, Instead of it, I preferred to write an Interface to make use of the concept of programming thinking on interfafaces.
+
+ - I provide security but I let the endpoints open.
 
 ## 🎁 ❤️ Thank you
 
-I would like to thank for the opportunity. 
+I would like to thank for the opportunity.
+
 
 
 ---
-⌨️ com ❤️ por [Lúcio Leandro](https://linkedin.com/in/lucioleandro) 😊
+com ❤️ por [Lúcio Leandro](https://linkedin.com/in/lucioleandro) 😊
 
-
-
-# tom
-
-## TODO
-
-- Cron to get data from the other application (see how to configure to the job run just in one instance)<br><br>
-
-- check if an id mut be Long or long - done - it must be Integer since int never can be null and we need null id to insert new entitities in the bank <br><br>
-
-- Ver a diferença entre generatedType.Auto e generatedType.Identity<br><br> done https://www.alura.com.br/artigos/entendendo-a-geracao-de-chaves-com-jpa
-
-- Generate javadoc to all application<br><br>
-
-- Generat at least toString to Member and Team Class<br><br>
-
-- Lembrar de tirar métodos de serviços não utilizados<br><br>
-
-- Refatorar as classes para respeitar os 100 caracteres<br><br>
-
-- Verificar se a API deles me permitem fazer post<br><br>
-
-- Passar o sonar lint no projeto<br><br>
-
-- Fazer o adminer funcionar com porta externa<br><br>
-
-- Sobrescrever equals and hashcode <br><br>	
-
-- Verificar se preciso colocar @transaction nos métodos <br><br>
-
-- Mudar os nomes dos métodos no controller para inglês <br><br>
-
-- Tirar validations das classes que não são necessárias <br><br>
-
-- Como não deixar o swagger exposto <br><br>
-
-- Usar logger em todos os services, inclusive no job e também no fetch <br><br>
-
-- O serviço de membros tem mais dados do que imaginavamos <br><br>
-
-- Remover pasta Git antes de entregar <br><br>
-
-- Melhorar para busca paginada <br><br>
-
-- Refatorar métodos fetchs <br><br>
-
-- Criar interfaces para os jobs <br><br>
-
-- Se der tempo paginar as consultas <br><br>
-
-- substituir role por roleDto no post do serviço; <br><br>
-
-
-## Outros
-
-I must say I used the google style guide
-
-I must talk about use UUID as PK
