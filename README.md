@@ -1,14 +1,16 @@
 ## SUMMARY
-- **TOM API** ………………………………………………………………………………..
-- **Pré-requisitos**…………………………………………………………………………..
-- **SOME INFORMATIONS ABOUT THE PROJECT**………………………………..
-- **My Approach**……………………………………………………………………………
-- **Fetch Members Job**……………………………………………………………………
-- **Fetch Teams**……………………………………………………………………………
-- **Database and API flow**………………………………………………………………..
-- **SUGGESTION FOR IMPROVEMENT IN THE TEAM OR USER SERVICES**..
-- **SUGGESTION FOR IMPROVEMENT OF TOM APPLICATION**………………..
-- **WHAT HAPPENS IF THE DATA YOU ARE USING GETS DELETED?**.............
+- [**TOM API**](#tom-api) ………………………………………………………………………………..
+- [**Starting**](#-starting) ………………………………………………………………………………..
+- [**Pré-requisitos**](#-pré-requisitos)…………………………………………………………………………..
+- [**SOME INFORMATIONS ABOUT THE PROJECT**](#%EF%B8%8F%EF%B8%8F-some-informations-about-the-project)………………………………..
+- [**My Approach**](#-my-approach)……………………………………………………………………………
+- [**Fetch Members Job**](#fetch-members-job)……………………………………………………………………
+- [**Fetch Teams**](#fetch-teams)……………………………………………………………………………
+- [**Database and API flow**](#%EF%B8%8F-database-and-api-flow)………………………………………………………………..
+- [**SUGGESTION FOR IMPROVEMENT IN THE TEAM OR USER SERVICES**](#-suggestion-for-improvement-in-the-team-or-user-services)..
+- [**SUGGESTION FOR IMPROVEMENT OF TOM APPLICATION**](#-suggestion-for-improvement-of-tom-aplication)………………..
+- [**WHAT HAPPENS IF THE DATA YOU ARE USING GETS DELETED?**](#-what-happens-if-the-data-you-are-using-gets-deleted).............
+- [**Acknowledgments**]…………………………………………………………………..
 
 
 # TOM API
@@ -82,7 +84,7 @@ Considering my observations I built four scheduled jobs:
  - Delete Members Job
  - Delete Teams Job
 
-**Fetch Members Job**
+##### **Fetch Members Job**
 
 This job is responsible for doing a requisition to the other application and retrieving all necessary data to instantiate a Member in TOM application, it is: first name, last name, display name, location, avatar, and uuid and afterward save the data to TOM’s database.
 
@@ -103,7 +105,7 @@ OBS: For sure, these asymptotic analyses don’t take into consideration the req
 
 To sum up, the job also contains a good algorithm and we have to consider that there will not be hundreds of new teams and members every day, then this job will be really efficient.
 
-**Fetch Teams**
+##### **Fetch Teams**
 
 This job is responsible for doing a requisition to the other application and retrieving all necessary data to instantiate a Team in TOM application, it is: name, uuid, and team lead, besides it, we have to fetch the members of each team and construct the memberships and afterward save all data to TOM’s database.
 
@@ -121,7 +123,7 @@ Having these asymptotic analyses above and considering a server executing 8.000 
 OBS: For sure, these asymptotic analyses don’t take into consideration the request and response time for the other application, time to open, retrieve, record, and commit to the database, and also don’t consider micro-operations such as reading and writing in the machine memory.
 
 
-**Other way to fetch data*
+##### **Other way to fetch data*
 
 Always a request by id is sent to TOM API, it first looks in TOM’s database if the entity is not present, a request is sent to the other application in order to retrieve and save it in the TOM DB, if so, the application return the result which is now saved in the bank 
 
