@@ -90,6 +90,24 @@ OBS: For sure, these asymptotic analyses don’t take into consideration the req
 
 To sum up, the job also contains a good algorithm and we have to consider that there will not be hundreds of new teams and members every day, then this job will be really efficient.
 
+**Fetch Teams**
+
+This job is responsible for doing a requisition to the other application and retrieving all necessary data to instantiate a Team in TOM application, it is: name, uuid, and team lead, besides it, we have to fetch the members of each team and construct the memberships and afterward save all data to TOM’s database.
+
+
+The algorithm built for this task has the following Mathematical Equation when the worst case:
+
+ 5 + ( n + dt) + 6n + 6 x 7
+
+dt = amount of current data on TOM’s database
+
+Having these asymptotic analyses above and considering a server executing 8.000 operations per second + the worst case we have today which is 100 teams the first time the job is ran and considering the amount of teams already saved in TOM’s database being 500 the algorithm would take:
+
+5 + (100 +  500) + (6 x 100) + (6 x 7) = 1247 operations -> 1247 / 8000 = 0.15 seconds to execute the algorithm.
+
+OBS: For sure, these asymptotic analyses don’t take into consideration the request and response time for the other application, time to open, retrieve, record, and commit to the database, and also don’t consider micro-operations such as reading and writing in the machine memory.
+
+
 **Other way to fetch data*
 
 Always a request by id is sent to TOM API, it first looks in TOM’s database if the entity is not present, a request is sent to the other application in order to retrieve and save it in the TOM DB, if so, the application return the result which is now saved in the bank 
