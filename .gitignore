@@ -27,3 +27,9 @@ hs_err_pid*
 .settings/
 
 target/m2e-wtp/web-resources/META-INF/
+
+target/classes/
+
+target/maven-archiver/
+
+target/maven-status/maven-compiler-plugin/compile/default-compile/
