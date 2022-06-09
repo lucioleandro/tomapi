@@ -57,6 +57,7 @@ The project Was built using:
 - Mysql 
 - JUnit
 - Swagger
+- LOG4J - without vulnerability
 
 
 ### 🧠 My Approach
