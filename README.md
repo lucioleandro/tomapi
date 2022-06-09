@@ -90,58 +90,59 @@ OBS: For sure, these asymptotic analyses don’t take into consideration the req
 
 To sum up, the job also contains a good algorithm and we have to consider that there will not be hundreds of new teams and members every day, then this job will be really efficient.
 
+**Other way to fetch data*
 
-### ⌨️ E testes de estilo de codificação
+Always a request by id is sent to TOM API, it first looks in TOM’s database if the entity is not present, a request is sent to the other application in order to retrieve and save it in the TOM DB, if so, the application return the result which is now saved in the bank 
 
-Explique que eles verificam esses testes e porquê.
 
-```
-Dar exemplos
-```
+### ⌨️ Database and API flow
 
-## 📦 Desenvolvimento
+ Using UUID as a unique have some advantages:
+ 
+ - security: opaque IDs for exporting in REST APIs;
+ - decentralized ID generation: so browsers, clients and services, mobile apps and other banks can generate unique IDs;
+ - ideal on distributed DBs or with multiple write nodes;
+ - are great for planned banks or when merging;
+ - super useful among DBs
+ - its use in batch processing can improve and optimize throughput;
+ - in common data replication scenarios
+
+Some disadvantages:
+
+ - requires more disco space;
+ - Affect memory buffer to index table;
+ - UUIDs are not orderable (although such specifications and implementations as the ULID);
+ - Most 64-bit servers: UUID are 128-bit keys, so they need at least 2 CPU cycles to process;
+ - Could be worse? of course, just explain in your bank the UUID;
+ - PostgreSQL and impact on writing and reading;
+ - PostgreSQL and Write Amplification;
+ - MySQL and clustered indexes;
+ - MS SQL Server and clustered indexes (suffers from the same malady as MySQL);
+ - Oracle and performance impact;
+
+Besides that, we have cases as examples in Big techs such as Meta / Facebook which needed to destruct Instagram Database in other to improve performance, and instead of using UUID they built their own 64bits ID.
+
+I chose use Int as primary key in order to keep the database helthy but I use uuid as a column in database, and I use this field such as an external ID,
+So that, I can keep the relation between both applications.
+
+
+## 📦 Suggestion for improvement in the Team or User services
+
+In my point of view, the service to list all users and teams must return the completed data as in the searching by ID. It would allow a simpler implementation of my algorithms cited in previous section
 
 Adicione notas adicionais sobre como implantar isso em um sistema ativo
 
-## ⚙️ Construído com
+## 📦 Suggestion for improvement of TOM aplication
 
-Mencione as ferramentas que você usou para criar seu projeto
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - O framework web usado
-* [Maven](https://maven.apache.org/) - Gerente de Dependência
-* [ROME](https://rometools.github.io/rome/) - Usada para gerar RSS
 
-## 🖇️ Colaborando
+## 🎁 ❤️ Thank you
 
-Por favor, leia o [COLABORACAO.md](https://gist.github.com/usuario/linkParaInfoSobreContribuicoes) para obter detalhes sobre o nosso código de conduta e o processo para nos enviar pedidos de solicitação.
-
-## 📌 Versão
-
-Nós usamos [SemVer](http://semver.org/) para controle de versão. Para as versões disponíveis, observe as [tags neste repositório](https://github.com/suas/tags/do/projeto). 
-
-## ✒️ Autores
-
-Mencione todos aqueles que ajudaram a levantar o projeto desde o seu início
-
-* **Um desenvolvedor** - *Trabalho Inicial* - [umdesenvolvedor](https://github.com/linkParaPerfil)
-* **Fulano De Tal** - *Documentação* - [fulanodetal](https://github.com/linkParaPerfil)
-
-Você também pode ver a lista de todos os [colaboradores](https://github.com/usuario/projeto/colaboradores) que participaram deste projeto.
-
-## 📄 Licença
-
-Este projeto está sob a licença (sua licença) - veja o arquivo [LICENSE.md](https://github.com/usuario/projeto/licenca) para detalhes.
-
-## 🎁 Expressões de gratidão
-
-* Conte a outras pessoas sobre este projeto 📢
-* Convide alguém da equipe para uma cerveja 🍺 
-* Obrigado publicamente 🤓.
-* etc.
+I would like to thank for the opportunity. 
 
 
 ---
-⌨️ com ❤️ por [Armstrong Lohãns](https://gist.github.com/lohhans) 😊
+⌨️ com ❤️ por [Lúcio Leandro](https://linkedin.com/in/lucioleandro) 😊
 
 
 
