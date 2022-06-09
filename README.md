@@ -1,3 +1,16 @@
+## SUMMARY
+- **TOM API** ………………………………………………………………………………..
+- **Pré-requisitos**…………………………………………………………………………..
+- **SOME INFORMATIONS ABOUT THE PROJECT**………………………………..
+- **My Approach**……………………………………………………………………………
+- **Fetch Members Job**……………………………………………………………………
+- **Fetch Teams**……………………………………………………………………………
+- **Database and API flow**………………………………………………………………..
+- **SUGGESTION FOR IMPROVEMENT IN THE TEAM OR USER SERVICES**..
+- **SUGGESTION FOR IMPROVEMENT OF TOM APPLICATION**………………..
+- **WHAT HAPPENS IF THE DATA YOU ARE USING GETS DELETED?**.............
+
+
 # TOM API
 
 #### T -> means team
