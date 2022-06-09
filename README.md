@@ -39,7 +39,8 @@ Go to the root of the project, and run:
 docker-compose up -d
 ```
 
-It will build and up two docker containers, the first is for the database and the second for the TOM API
+It will build and up two docker containers, the first is for the database and the second for the TOM API.
+maybe the tomapi container fail in the first attempt, but don't worry it will retry and run perfectly
 
 You can access the TOM API by using the URL: http://localhost:8080/tomapi/
 
