@@ -134,6 +134,14 @@ Adicione notas adicionais sobre como implantar isso em um sistema ativo
 
 ## 📦 Suggestion for improvement of TOM aplication
 
+- It was in my plan to use Apache Camel to make the integration because it is scalable and  provides quickly and easily integrate of various systems consuming or producing data
+
+
+
+## 🤯 What happens if the data you are using gets deleted?
+
+If the other application data is deleted, the system will keep working because we retrieve data and save it in the Tom's database
+
 
 
 ## 🎁 ❤️ Thank you
