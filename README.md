@@ -185,6 +185,8 @@ If the other application data is deleted, the system will keep working because w
 
  - I provide security but I let the endpoints open.
 
+ - I haven't implemented CRUD to all service, I just implemented the solicited services
+
 ## 🎁 ❤️ Thank you
 
 I would like to thank for the opportunity.
