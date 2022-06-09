@@ -23,6 +23,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: tomapi
+    restart: always
     networks:
       - tom-dev
     ports:
