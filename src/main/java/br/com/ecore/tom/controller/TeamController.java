@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.ecore.tom.domain.Team;
-import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.service.TeamService;
 
 @RestController
@@ -27,9 +26,8 @@ public class TeamController {
 
   @GetMapping("/{id}")
   public ResponseEntity<Team> lookupByExternald(@PathVariable UUID id) {
-    Team teams = service.findByeExternalId(id)
-        .orElseThrow(() -> new EntityNotFoundException(id, Team.class));
-    return ResponseEntity.ok(teams);
+    Team team = service.findByExternalId(id);
+    return ResponseEntity.ok(team);
   }
 
 }

@@ -18,55 +18,48 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import br.com.ecore.tom.domain.Member;
 import br.com.ecore.tom.domain.Membership;
-import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.Team;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
-import br.com.ecore.tom.repository.RoleRepository;
+import br.com.ecore.tom.repository.MembershipRepository;
 
 @ExtendWith(MockitoExtension.class)
-class RoleServiceTest {
+class MemberShipServiceTest {
 
   @InjectMocks
-  private RoleService service;
+  private MembershipService service;
 
   @Mock
-  private RoleRepository repository;
+  private MembershipRepository repository;
 
   @Mock
-  private MembershipService membershipService;
-
-  @Mock
-  private Role role;
-
   private Membership membership;
 
   @BeforeEach
   public void setup() {
-    this.role = new Role("Dev Test", "Dev test");
-    this.role.setUuid(UUID.randomUUID());
-    Member member = new Member();
-    member.setRole(role);
-    this.membership = new Membership(1, UUID.randomUUID(), member, new Team());
+    Member member = new Member(UUID.randomUUID());
+    Team team = new Team(UUID.randomUUID(), "Dev test");
+    this.membership = new Membership(member, team);
+    membership.setUuid(UUID.randomUUID());
   }
 
   @Test
   @DisplayName("Must save valid object")
   void must_save_a_role() {
-    when(service.create(role)).thenReturn(mock(Role.class));
-    when(repository.save(role)).thenReturn(role);
+    when(service.create(membership)).thenReturn(mock(Membership.class));
+    when(repository.save(membership)).thenReturn(membership);
 
-    Role roleSaved = this.service.create(role);
-    assertNotNull(roleSaved);
-    verify(repository).save(role);
+    Membership membershipSaved = this.service.create(membership);
+    assertNotNull(membershipSaved);
+    verify(repository).save(membershipSaved);
   }
 
   @Test
-  @DisplayName("Must return a role by its external id")
-  void must_find_a_role_by_external_id() {
-    when(repository.findByUuid(any(UUID.class))).thenReturn(Optional.of(role));
-    Role roleFound = service.findByExternalId(UUID.randomUUID());
+  @DisplayName("Must return a membership by its external id")
+  void must_find_a_membership_by_external_id() {
+    when(repository.findByUuid(any(UUID.class))).thenReturn(Optional.of(membership));
+    Membership membershipFound = service.findByExternalId(UUID.randomUUID());
 
-    assertTrue(roleFound.getUuid().equals(role.getUuid()));
+    assertTrue(membershipFound.getUuid().equals(membership.getUuid()));
   }
 
   @Test
@@ -76,13 +69,6 @@ class RoleServiceTest {
     assertThrows(EntityNotFoundException.class, () -> service.findByExternalId(UUID.randomUUID()));
   }
 
-  @Test
-  @DisplayName("Must return a role by membership external id")
-  void must_find_a_role_by_member_external_id() {
-    when(membershipService.findByExternalId(any(UUID.class))).thenReturn(membership);
-    Role roleFound = service.findByMembershipExternalId(UUID.randomUUID());
 
-    assertTrue(roleFound.getUuid().equals(role.getUuid()));
-  }
 
 }
