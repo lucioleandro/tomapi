@@ -26,7 +26,6 @@ public class RoleService {
   public Role findByExternalId(UUID externalId) {
     return repository.findByUuid(externalId)
         .orElseThrow(() -> new EntityNotFoundException(externalId, Role.class));
-
   }
 
   public Role findByMembershipExternalId(UUID membershipExternalId) {

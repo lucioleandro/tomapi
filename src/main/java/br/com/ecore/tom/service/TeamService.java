@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.com.ecore.tom.domain.Team;
+import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.repository.TeamRepository;
 
 @Service
@@ -33,12 +34,12 @@ public class TeamService {
     return repository.findAll();
   }
 
-  public Optional<Team> findByeId(Integer id) {
+  public Optional<Team> findById(Integer id) {
     return repository.findById(id);
   }
 
-  public Optional<Team> findByeExternalId(UUID id) {
-    return repository.findByUuid(id);
+  public Team findByExternalId(UUID id) {
+    return repository.findByUuid(id).orElseThrow(() -> new EntityNotFoundException(id, Team.class));
   }
 
 }
