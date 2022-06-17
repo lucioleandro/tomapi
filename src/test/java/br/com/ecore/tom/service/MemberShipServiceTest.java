@@ -63,7 +63,7 @@ class MemberShipServiceTest {
   }
 
   @Test
-  @DisplayName("Must return a exception when the register is not in database neither")
+  @DisplayName("Must return a exception when the register is not in database")
   void must_throw_exception_when_externalId_is_not_in_database() {
     when(repository.findByUuid(any(UUID.class))).thenReturn(Optional.empty());
     assertThrows(EntityNotFoundException.class, () -> service.findByExternalId(UUID.randomUUID()));

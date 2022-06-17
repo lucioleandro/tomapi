@@ -7,6 +7,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,6 +54,32 @@ class TeamServiceTest {
     Team teamSaved = this.service.create(team);
     assertNotNull(teamSaved);
     verify(repository).save(team);
+  }
+
+  @Test
+  @DisplayName("Must update valid object")
+  void must_update_a_team() {
+    when(service.create(team)).thenReturn(mock(Team.class));
+    when(repository.save(team)).thenReturn(team);
+
+    Team teamSaved = this.service.create(team);
+    assertNotNull(teamSaved);
+    verify(repository).save(team);
+  }
+
+  @Test
+  @DisplayName("Must save a list of valid object")
+  void must_save_list_of_teams() {
+    List<Team> teams = new ArrayList<>();
+    teams.add(this.team);
+    teams.add(new Team(UUID.randomUUID(), "Second Team Test"));
+
+    when(service.createAll(teams)).thenReturn(teams);
+    when(repository.saveAll(teams)).thenReturn(teams);
+
+    List<Team> teamsSaved = this.service.createAll(teams);
+    assertNotNull(teamsSaved);
+    verify(repository).saveAll(teams);
   }
 
   @Test
