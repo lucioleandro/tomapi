@@ -128,7 +128,7 @@ OBS: For sure, these asymptotic analyses don’t take into consideration the req
 
 ##### **Other way to fetch data*
 
-Always a request by id is sent to TOM API, it first looks in TOM’s database if the entity is not present, a request is sent to the other application in order to retrieve and save it in the TOM DB, if so, the application return the result which is now saved in the bank 
+Always a request by id is sent to TOM API, it first looks in TOM’s database if the entity is not present, a request is sent to the other application in order to retrieve and save it in the TOM DB, if so, the application return the result which is now saved in the database 
 
 
 ### ⌨️ Database and API flow
