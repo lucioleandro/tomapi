@@ -1,5 +1,6 @@
 package br.com.ecore.tom.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -62,10 +63,27 @@ class RoleServiceTest {
   }
 
   @Test
-  @DisplayName("Must return a exception when the register is not in database neither")
+  @DisplayName("Must return a exception when the register is not in database")
   void must_throw_exception_when_externalId_is_not_in_database() {
     when(repository.findByUuid(any(UUID.class))).thenReturn(Optional.empty());
     assertThrows(EntityNotFoundException.class, () -> service.findByExternalId(UUID.randomUUID()));
+  }
+
+  @Test
+  @DisplayName("Must find a role by its name")
+  void must_find_a_role_by_name() {
+    when(repository.findByName("Developer")).thenReturn(Optional.of(role));
+    Role roleFound = service.findByName("Developer");
+
+    assertTrue(roleFound.getUuid().equals(role.getUuid()));
+    assertEquals(roleFound.getName(), role.getName());
+  }
+
+  @Test
+  @DisplayName("Must return a exception when the register with given name is not in database")
+  void must_throw_exception_when_register_with_name_is_not_in_database() {
+    when(repository.findByName("Developer")).thenReturn(Optional.empty());
+    assertThrows(EntityNotFoundException.class, () -> service.findByName("Developer"));
   }
 
 }

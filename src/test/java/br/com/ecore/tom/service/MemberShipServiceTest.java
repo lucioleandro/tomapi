@@ -8,6 +8,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +25,7 @@ import br.com.ecore.tom.domain.Member;
 import br.com.ecore.tom.domain.Membership;
 import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.Team;
+import br.com.ecore.tom.domain.dto.MembershipDTO;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.integration.TeamConsumerService;
 import br.com.ecore.tom.repository.MembershipRepository;
@@ -57,6 +60,8 @@ class MemberShipServiceTest {
     UUID roleExternalId = UUID.randomUUID();
     this.role = new Role(1, roleExternalId, "Developer",
         "Performs the function of implementing and maintaining system functionalities");
+
+    membership.setRole(role);
   }
 
   @Test
@@ -133,6 +138,38 @@ class MemberShipServiceTest {
 
     assertEquals(this.role.getUuid(), assignedMembership.getRole().getUuid());
     verify(repository).save(assignedMembership);
+  }
+
+  @Test
+  @DisplayName("Must return a exception when the register is not in database nether in the other application")
+  void must_throw_exception_when_member_ship_is_not_in_database_neither_in_the_other_application() {
+    when(repository.findByTeamUuidAndMemberUuid(any(UUID.class), any(UUID.class)))
+        .thenAnswer(new Answer<Object>() {
+          private int count = 1;
+
+          public Object answer(InvocationOnMock invocation) {
+            if (count++ == 1) {
+              return Optional.empty();
+            }
+            return Optional.empty();
+          }
+        });
+
+    assertThrows(EntityNotFoundException.class,
+        () -> service.findByMembership(UUID.randomUUID(), UUID.randomUUID()));
+  }
+
+  @Test
+  @DisplayName("Must return a List of membership by a role")
+  void must_return_a_list_of_membership_by_a_role() {
+    List<MembershipDTO> ships = new ArrayList<>();
+    ships.add(new MembershipDTO(membership));
+
+    when(repository.findByRoleUuid(any(UUID.class))).thenReturn(ships);
+    List<MembershipDTO> shipsFound = service.findByRoleExternalId(UUID.randomUUID());
+
+    assertTrue(shipsFound.size() > 0);
+    assertEquals(ships.get(0).getId(), membership.getUuid());
   }
 
 }

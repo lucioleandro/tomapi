@@ -1,5 +1,6 @@
 package br.com.ecore.tom.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -57,13 +58,13 @@ class TeamServiceTest {
   }
 
   @Test
-  @DisplayName("Must update valid object")
+  @DisplayName("Must update a valid object")
   void must_update_a_team() {
-    when(service.create(team)).thenReturn(mock(Team.class));
+    when(service.update(team)).thenReturn(mock(Team.class));
     when(repository.save(team)).thenReturn(team);
 
-    Team teamSaved = this.service.create(team);
-    assertNotNull(teamSaved);
+    Team teamUpdated = this.service.update(team);
+    assertNotNull(teamUpdated);
     verify(repository).save(team);
   }
 
@@ -89,6 +90,18 @@ class TeamServiceTest {
     Team teamFound = service.findByExternalId(UUID.randomUUID());
 
     assertTrue(teamFound.getUuid().equals(team.getUuid()));
+  }
+
+  @Test
+  @DisplayName("Must return all teams")
+  void must_find_all_teams() {
+    List<Team> teams = new ArrayList<>();
+    teams.add(team);
+    when(repository.findAll()).thenReturn(teams);
+    List<Team> foundedTeams = service.findAll();
+
+    assertTrue(foundedTeams.size() > 0);
+    assertEquals(foundedTeams.get(0).getUuid(), team.getUuid());
   }
 
   @Test

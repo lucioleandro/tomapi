@@ -27,13 +27,8 @@ public class MemberService {
   }
 
   @Transactional
-  public void createAll(List<Member> membersToSave) {
-    repository.saveAll(membersToSave);
-  }
-
-
-  public Member findById(Integer id) {
-    return repository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Member.class));
+  public List<Member> createAll(List<Member> membersToSave) {
+    return repository.saveAll(membersToSave);
   }
 
   @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)

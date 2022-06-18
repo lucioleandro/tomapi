@@ -1,7 +1,6 @@
 package br.com.ecore.tom.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,10 +31,6 @@ public class TeamService {
 
   public List<Team> findAll() {
     return repository.findAll();
-  }
-
-  public Optional<Team> findById(Integer id) {
-    return repository.findById(id);
   }
 
   public Team findByExternalId(UUID id) {
