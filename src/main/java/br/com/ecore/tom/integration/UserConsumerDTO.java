@@ -2,7 +2,6 @@ package br.com.ecore.tom.integration;
 
 import java.util.UUID;
 import br.com.ecore.tom.domain.Member;
-import br.com.ecore.tom.domain.Role;
 
 public class UserConsumerDTO {
 
@@ -56,7 +55,7 @@ public class UserConsumerDTO {
 
   public Member transformToMember() {
     return new Member(this.id, this.firstName, this.lastName, this.displayName, this.avatarUrl,
-        this.location, new Role(1)); // this.id is set to Member.uuid
+        this.location); // this.id is set to Member.uuid
   }
 
 }

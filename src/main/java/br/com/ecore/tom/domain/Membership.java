@@ -31,17 +31,21 @@ public class Membership implements Serializable, IEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private Team team;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Role role;
+
   public Membership() {}
 
   public Membership(Integer id) {
     this.id = id;
   }
 
-  public Membership(Integer id, UUID uuid, Member member, Team team) {
+  public Membership(Integer id, UUID uuid, Member member, Team team, Role role) {
     this.id = id;
     this.uuid = uuid;
     this.member = member;
     this.team = team;
+    this.role = role;
   }
 
   public Membership(Member member, Team team) {
@@ -67,6 +71,14 @@ public class Membership implements Serializable, IEntity {
 
   public Team getTeam() {
     return team;
+  }
+
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
   }
 
   @Override

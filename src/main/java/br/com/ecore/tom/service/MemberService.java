@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import br.com.ecore.tom.domain.Member;
-import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.integration.MemberConsumerService;
 import br.com.ecore.tom.repository.MemberRepository;
@@ -18,9 +17,6 @@ public class MemberService {
 
   @Autowired
   private MemberRepository repository;
-
-  @Autowired
-  private RoleService roleService;
 
   @Autowired
   private MemberConsumerService memberConsumerService;
@@ -35,14 +31,6 @@ public class MemberService {
     repository.saveAll(membersToSave);
   }
 
-  @Transactional
-  public Member assignRole(UUID memberExternalId, UUID roleExternalId) {
-    Member member = this.findByExternalId(memberExternalId);
-    Role role = roleService.findByExternalId(roleExternalId);
-    member.setRole(role);
-
-    return repository.save(member);
-  }
 
   public Member findById(Integer id) {
     return repository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Member.class));

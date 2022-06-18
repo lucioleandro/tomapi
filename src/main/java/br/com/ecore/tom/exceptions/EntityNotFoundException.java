@@ -9,6 +9,18 @@ public class EntityNotFoundException extends RuntimeException {
   private final Class<?> classe;
   private final Object serchedId;
 
+  public EntityNotFoundException(Class<?> classe) {
+    super("An instance of the class " + classe.getName() + " was not found.");
+    this.serchedId = null;
+    this.classe = classe;
+  }
+
+  public EntityNotFoundException(String message, Class<?> classe) {
+    super("An instance of the class " + classe.getName() + " was not found. " + message);
+    this.serchedId = null;
+    this.classe = classe;
+  }
+
   public EntityNotFoundException(Integer serchedId, Class<?> classe) {
     super("An instance of the class " + classe.getName() + " with id: " + serchedId
         + " was not found.");

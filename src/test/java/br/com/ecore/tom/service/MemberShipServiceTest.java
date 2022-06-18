@@ -1,5 +1,6 @@
 package br.com.ecore.tom.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,11 +16,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 import br.com.ecore.tom.domain.Member;
 import br.com.ecore.tom.domain.Membership;
+import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.Team;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
+import br.com.ecore.tom.integration.TeamConsumerService;
 import br.com.ecore.tom.repository.MembershipRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,17 +39,29 @@ class MemberShipServiceTest {
   @Mock
   private Membership membership;
 
+  @Mock
+  private RoleService roleService;
+
+  @Mock
+  private TeamConsumerService teamConsumerService;
+
+  private Role role;
+
   @BeforeEach
   public void setup() {
     Member member = new Member(UUID.randomUUID());
     Team team = new Team(UUID.randomUUID(), "Dev test");
     this.membership = new Membership(member, team);
     membership.setUuid(UUID.randomUUID());
+
+    UUID roleExternalId = UUID.randomUUID();
+    this.role = new Role(1, roleExternalId, "Developer",
+        "Performs the function of implementing and maintaining system functionalities");
   }
 
   @Test
   @DisplayName("Must save valid object")
-  void must_save_a_role() {
+  void must_save_a_membership() {
     when(service.create(membership)).thenReturn(mock(Membership.class));
     when(repository.save(membership)).thenReturn(membership);
 
@@ -63,12 +80,59 @@ class MemberShipServiceTest {
   }
 
   @Test
+  @DisplayName("Must try fetching a membership when it is not in tom's database")
+  void must_try_fetching_a_membership_when_it_is_not_in_tom_database() {
+    when(repository.findByTeamUuidAndMemberUuid(any(UUID.class), any(UUID.class)))
+        .thenAnswer(new Answer<Object>() {
+          private int count = 1;
+
+          public Object answer(InvocationOnMock invocation) {
+            if (count++ == 1) {
+              return Optional.empty();
+            }
+            return Optional.of(membership);
+          }
+        });
+
+    Membership membershipFound = service.findByMembership(UUID.randomUUID(), UUID.randomUUID());
+
+    assertTrue(membershipFound.getUuid().equals(membership.getUuid()));
+  }
+
+  @Test
   @DisplayName("Must return a exception when the register is not in database")
   void must_throw_exception_when_externalId_is_not_in_database() {
     when(repository.findByUuid(any(UUID.class))).thenReturn(Optional.empty());
     assertThrows(EntityNotFoundException.class, () -> service.findByExternalId(UUID.randomUUID()));
   }
 
+  @Test
+  @DisplayName("Must assign a default role to a membership")
+  void must_assign_a_default_role_to_a_team_member() {
+    when(roleService.findByName(any(String.class))).thenReturn(this.role);
+    when(repository.findByTeamUuidAndMemberUuid(any(UUID.class), any(UUID.class)))
+        .thenReturn(Optional.of(membership));
+    when(repository.save(membership)).thenReturn(membership);
+    Membership assignedMembership =
+        this.service.assignRole(UUID.randomUUID(), UUID.randomUUID(), null);
 
+    verify(repository).save(assignedMembership);
+  }
+
+  @Test
+  @DisplayName("Must assign a specific role to a membership")
+  void must_assign_a_specific_role_to_a_team_member() {
+    UUID roleExternalId = this.role.getUuid();
+
+    when(roleService.findByExternalId(roleExternalId)).thenReturn(this.role);
+    when(repository.findByTeamUuidAndMemberUuid(any(UUID.class), any(UUID.class)))
+        .thenReturn(Optional.of(membership));
+    when(repository.save(membership)).thenReturn(membership);
+    Membership assignedMembership =
+        this.service.assignRole(UUID.randomUUID(), UUID.randomUUID(), roleExternalId);
+
+    assertEquals(this.role.getUuid(), assignedMembership.getRole().getUuid());
+    verify(repository).save(assignedMembership);
+  }
 
 }

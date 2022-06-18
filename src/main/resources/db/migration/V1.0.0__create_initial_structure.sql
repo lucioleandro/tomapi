@@ -42,10 +42,8 @@ CREATE TABLE `member` (
   `display_name` varchar(30) NOT NULL,
   `avatar_url` varchar(255),
   `location` varchar(50),
-  `role_id` INT DEFAULT NULL,
   `uuid` binary(36) NOT NULL,
-  CONSTRAINT `PK_member` PRIMARY KEY (`id` ASC),
-  CONSTRAINT `FK_member_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE Restrict ON UPDATE Restrict
+  CONSTRAINT `PK_member` PRIMARY KEY (`id` ASC)
 );
 
 -- Table `team`
@@ -70,10 +68,12 @@ CREATE TABLE `membership` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `member_id` INT DEFAULT NULL,
   `team_id` INT DEFAULT NULL,
+  `role_id` INT DEFAULT NULL,
   `uuid` binary(36) NOT NULL,
   CONSTRAINT `PK_membership`PRIMARY KEY (`id` ASC),
   CONSTRAINT `FK_membership_team` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`) ON DELETE Restrict ON UPDATE Restrict,
-  CONSTRAINT `FK_membership_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE Restrict ON UPDATE Restrict
+  CONSTRAINT `FK_membership_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE Restrict ON UPDATE RESTRICT,
+  CONSTRAINT `FK_membership_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE Restrict ON UPDATE Restrict
 );
 
 

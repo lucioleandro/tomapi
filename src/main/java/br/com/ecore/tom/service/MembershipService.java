@@ -1,13 +1,16 @@
 package br.com.ecore.tom.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.com.ecore.tom.domain.Membership;
+import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.dto.MembershipDTO;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
+import br.com.ecore.tom.integration.TeamConsumerService;
 import br.com.ecore.tom.repository.MembershipRepository;
 
 @Service
@@ -16,15 +19,31 @@ public class MembershipService {
   @Autowired
   private MembershipRepository repository;
 
+  @Autowired
+  private TeamConsumerService teamConsumerService;
+
+  @Autowired
+  private RoleService roleService;
+
   @Transactional
   public Membership create(Membership membership) {
     membership.setUuid(UUID.randomUUID());
     return repository.save(membership);
   }
 
-  public Membership findById(Integer externalId) {
-    return repository.findById(externalId)
-        .orElseThrow(() -> new EntityNotFoundException(externalId, Membership.class));
+  @Transactional
+  public Membership assignRole(UUID teamExternalId, UUID memberExternalId, UUID roleExternalId) {
+    Role role = null;
+    if (roleExternalId == null) {
+      role = roleService.findByName("Developer");
+    } else {
+      role = roleService.findByExternalId(roleExternalId);
+    }
+
+    Membership membership = findByMembership(teamExternalId, memberExternalId);
+    membership.setRole(role);
+
+    return repository.save(membership);
   }
 
   public Membership findByExternalId(UUID externalId) {
@@ -32,8 +51,20 @@ public class MembershipService {
         .orElseThrow(() -> new EntityNotFoundException(externalId, Membership.class));
   }
 
+  public Membership findByMembership(UUID teamExternalId, UUID memberExternalId) {
+    Optional<Membership> optionalMembership =
+        repository.findByTeamUuidAndMemberUuid(teamExternalId, memberExternalId);
+    if (optionalMembership.isPresent()) {
+      return optionalMembership.get();
+    }
+    teamConsumerService.fetchTeamById(teamExternalId);
+    return repository.findByTeamUuidAndMemberUuid(teamExternalId, memberExternalId)
+        .orElseThrow(() -> new EntityNotFoundException(
+            "Thre is no membership with this combination of team and member", Membership.class));
+  }
+
   public List<MembershipDTO> findByRoleExternalId(UUID externalId) {
-    return repository.findByRoleExternalId(externalId);
+    return repository.findByRoleUuid(externalId);
   }
 
 }

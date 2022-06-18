@@ -5,11 +5,9 @@ import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
@@ -41,9 +39,6 @@ public class Member implements Serializable, IEntity {
 
   private String location;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Role role;
-
   public Member() {}
 
   public Member(UUID uuid) {
@@ -51,7 +46,7 @@ public class Member implements Serializable, IEntity {
   }
 
   public Member(Integer id, UUID uuid, String firstName, String lastName, String displayName,
-      String avatarUrl, String location, Role role) {
+      String avatarUrl, String location) {
     this.id = id;
     this.uuid = uuid;
     this.firstName = firstName;
@@ -59,31 +54,21 @@ public class Member implements Serializable, IEntity {
     this.displayName = displayName;
     this.avatarUrl = avatarUrl;
     this.location = location;
-    this.role = role;
   }
 
   public Member(UUID uuid, String firstName, String lastName, String displayName, String avatarUrl,
-      String location, Role role) {
+      String location) {
     this.uuid = uuid;
     this.firstName = firstName;
     this.lastName = lastName;
     this.displayName = displayName;
     this.avatarUrl = avatarUrl;
     this.location = location;
-    this.role = role;
   }
 
   public Member(UUID uuid, String displayName) {
     this.uuid = uuid;
     this.displayName = displayName;
-  }
-
-  public Role getRole() {
-    return role;
-  }
-
-  public void setRole(Role role) {
-    this.role = role;
   }
 
   public Integer getId() {
@@ -133,7 +118,7 @@ public class Member implements Serializable, IEntity {
 
   @Override
   public String toString() {
-    return "Member [displayName: " + displayName + ", role: " + role.getName() + "]";
+    return "Member [displayName: " + displayName + "]";
   }
 
 }

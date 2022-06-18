@@ -9,8 +9,8 @@
 
 INSERT INTO role (name, description, uuid)
 VALUES
-('Developer', 'Exerce a função de implementar e dar manutenção em funcionalidades do sistema', UUID()),
-('Product Owner', 'Responsável pelo resultado do projeto', UUID()),
-('Tester', 'Responsável por testar as funcionalidades do sistema afim de atestar a qualidade e bom funcionamento', UUID());
+('Developer', 'Performs the function of implementing and maintaining system functionalities', UUID()),
+('Product Owner', 'Responsible for the outcome of the project', UUID()),
+('Tester', 'Responsible for testing the functionality of the system in order to attest to the quality and proper functioning', UUID());
 
 

@@ -9,4 +9,6 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 
   Optional<Role> findByUuid(UUID uuid);
 
+  Optional<Role> findByName(String name);
+
 }
