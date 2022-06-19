@@ -2,7 +2,6 @@ package br.com.ecore.tom.integration;
 
 import java.util.List;
 import java.util.UUID;
-import br.com.ecore.tom.domain.Member;
 import br.com.ecore.tom.domain.Team;
 
 public class TeamConsumerDTO {
@@ -43,7 +42,7 @@ public class TeamConsumerDTO {
   }
 
   public Team transformToTeam() {
-    return new Team(this.id, this.name, new Member(teamLeadId));
+    return new Team(this.id, this.name);
   }
 
 }

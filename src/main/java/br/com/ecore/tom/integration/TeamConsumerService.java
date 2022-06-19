@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import br.com.ecore.tom.domain.Member;
 import br.com.ecore.tom.domain.Membership;
+import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.Team;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.service.MemberService;
@@ -85,6 +86,7 @@ public class TeamConsumerService {
     for (UUID memberId : teamDTO.getTeamMemberIds()) {
       Member member = memberService.findByExternalId(memberId);
       Membership newShip = new Membership(member, team);
+      newShip.setRole(new Role(1));
       memberShipService.create(newShip);
     }
   }

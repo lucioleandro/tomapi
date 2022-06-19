@@ -16,7 +16,7 @@ public class MembersConsumerJob {
 
   // Será sempre executado aos 0 segundos do minuto 0 da hora 1 de todos os dias de todos os meses,
   // independente do dia da semana
-  private static final String CRON = "0 08 20 * * ?";
+  private static final String CRON = "0 23 13 * * ?";
 
   @Autowired
   private MemberConsumerService consumerService;
