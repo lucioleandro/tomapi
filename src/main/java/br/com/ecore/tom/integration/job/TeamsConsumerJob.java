@@ -16,7 +16,7 @@ public class TeamsConsumerJob {
 
   // Será sempre executado aos 0 segundos do minuto 0 da hora 3 de todos os dias de todos os meses,
   // independente do dia da semana
-  private static final String CRON = "0 02 16 * * ?";
+  private static final String CRON = "0 50 17 * * ?";
 
   @Autowired
   private TeamConsumerService consumerService;

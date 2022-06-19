@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -93,6 +96,23 @@ class MembershipControllerTest {
 
   @Test
   @WithMockUser(username = "springtest")
+  @DisplayName("Must get page of memberships")
+  void must_get_a_page_of_memberships() throws Exception {
+    Page<MembershipDTO> membershipMock = this.pageMembershipMock();
+
+    List<MembershipDTO> ships = new ArrayList<>();
+    ships.add(new MembershipDTO(membership));
+
+    URI uri = new URI("/memberships/");
+
+    when(service.findAll(any(PageRequest.class))).thenReturn(membershipMock);
+
+    mockMvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().is(200));
+  }
+
+  @Test
+  @WithMockUser(username = "springtest")
   @DisplayName("Must get memberships given a role")
   void must_get_a_memberships_given_a_role() throws Exception {
     List<MembershipDTO> ships = new ArrayList<>();
@@ -104,6 +124,13 @@ class MembershipControllerTest {
 
     mockMvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().is(200));
+  }
+
+  private PageImpl<MembershipDTO> pageMembershipMock() {
+    List<MembershipDTO> ships = new ArrayList<>();
+    ships.add(new MembershipDTO(this.membership));
+
+    return new PageImpl<MembershipDTO>(ships, PageRequest.of(0, 1), 1);
   }
 
 

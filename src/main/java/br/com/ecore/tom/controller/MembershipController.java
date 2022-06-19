@@ -3,6 +3,8 @@ package br.com.ecore.tom.controller;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -36,9 +38,15 @@ public class MembershipController {
   }
 
   @GetMapping("/{externalId}")
-  public ResponseEntity<Membership> lookupByExternalId(@PathVariable UUID externalId) {
+  public ResponseEntity<MembershipDTO> lookupByExternalId(@PathVariable UUID externalId) {
     Membership memberShip = service.findByExternalId(externalId);
-    return ResponseEntity.ok(memberShip);
+    return ResponseEntity.ok(new MembershipDTO(memberShip));
+  }
+
+  @GetMapping
+  public ResponseEntity<Page<MembershipDTO>> lookupAll(Pageable pageable) {
+    Page<MembershipDTO> pageShips = service.findAll(pageable);
+    return ResponseEntity.ok(pageShips);
   }
 
   @GetMapping("role/{roleExternalId}")

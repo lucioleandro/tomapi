@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.com.ecore.tom.domain.Membership;
@@ -44,6 +46,11 @@ public class MembershipService {
     membership.setRole(role);
 
     return repository.save(membership);
+  }
+
+  public Page<MembershipDTO> findAll(Pageable pageable) {
+    Page<Membership> ships = repository.findAll(pageable);
+    return ships.map(MembershipDTO::new);
   }
 
   public Membership findByExternalId(UUID externalId) {
