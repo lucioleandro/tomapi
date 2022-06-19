@@ -46,6 +46,8 @@ You can access the TOM API by using the URL: http://localhost:8080/tomapi/
 
 You can access Swagger documentation available on: http://localhost:8080/tomapi/swagger-ui.html#/
 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/ddc2195fc3e71910b042?action=collection%2Fimport)
+
 
 Consulte **Implantação** para saber como implantar o projeto.
 
