@@ -1,8 +1,11 @@
 package br.com.ecore.tom.domain.dto;
 
 import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import br.com.ecore.tom.domain.Team;
 
+@JsonInclude(Include.NON_NULL)
 public class TeamDTO {
 
   private UUID id;

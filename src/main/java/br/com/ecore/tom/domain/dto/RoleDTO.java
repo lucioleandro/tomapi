@@ -5,8 +5,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import br.com.ecore.tom.domain.Role;
 
+@JsonInclude(Include.NON_NULL)
 public class RoleDTO {
 
   private UUID id;
