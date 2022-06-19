@@ -21,6 +21,9 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import br.com.ecore.tom.domain.Member;
 import br.com.ecore.tom.domain.Membership;
 import br.com.ecore.tom.domain.Role;
@@ -160,6 +163,18 @@ class MemberShipServiceTest {
   }
 
   @Test
+  @DisplayName("Must return a page of memberships")
+  void must_return_a_page_of_memberships() {
+    PageImpl<Membership> membershipMock = this.pageMembershipMock();
+
+    when(repository.findAll(any(PageRequest.class))).thenReturn(membershipMock);
+    Page<MembershipDTO> shipsFound = service.findAll(PageRequest.of(0, 20));
+
+    assertTrue(shipsFound.getSize() == 1);
+    assertEquals(shipsFound.getContent().get(0).getId(), membership.getUuid());
+  }
+
+  @Test
   @DisplayName("Must return a List of membership by a role")
   void must_return_a_list_of_membership_by_a_role() {
     List<MembershipDTO> ships = new ArrayList<>();
@@ -170,6 +185,13 @@ class MemberShipServiceTest {
 
     assertTrue(shipsFound.size() > 0);
     assertEquals(ships.get(0).getId(), membership.getUuid());
+  }
+
+  private PageImpl<Membership> pageMembershipMock() {
+    List<Membership> ships = new ArrayList<>();
+    ships.add(this.membership);
+
+    return new PageImpl<Membership>(ships, PageRequest.of(0, 1), 1);
   }
 
 }
