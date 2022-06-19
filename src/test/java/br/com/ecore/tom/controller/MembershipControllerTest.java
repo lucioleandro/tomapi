@@ -27,7 +27,7 @@ import br.com.ecore.tom.service.MembershipService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class MembsershipControllerTest {
+class MembershipControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -81,7 +81,19 @@ class MembsershipControllerTest {
 
   @Test
   @WithMockUser(username = "springtest")
-  @DisplayName("Must get a memberships given a role")
+  @DisplayName("Must get a membership given an external ID")
+  void must_get_a_membership_given_a_external_id() throws Exception {
+    URI uri = new URI("/memberships/" + UUID.randomUUID());
+
+    when(service.findByExternalId(any(UUID.class))).thenReturn(membership);
+
+    mockMvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().is(200));
+  }
+
+  @Test
+  @WithMockUser(username = "springtest")
+  @DisplayName("Must get memberships given a role")
   void must_get_a_memberships_given_a_role() throws Exception {
     List<MembershipDTO> ships = new ArrayList<>();
     ships.add(new MembershipDTO(membership));

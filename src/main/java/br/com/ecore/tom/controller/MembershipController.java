@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.ecore.tom.domain.Membership;
-import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.dto.MembershipDTO;
-import br.com.ecore.tom.domain.dto.RoleDTO;
 import br.com.ecore.tom.service.MembershipService;
 
 @RestController
@@ -37,7 +35,7 @@ public class MembershipController {
     return ResponseEntity.ok(new MembershipDTO(updatedMembership));
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/{externalId}")
   public ResponseEntity<Membership> lookupByExternalId(@PathVariable UUID externalId) {
     Membership memberShip = service.findByExternalId(externalId);
     return ResponseEntity.ok(memberShip);
@@ -47,13 +45,6 @@ public class MembershipController {
   public ResponseEntity<List<MembershipDTO>> lookupByRole(@PathVariable UUID roleExternalId) {
     List<MembershipDTO> memberShips = service.findByRoleExternalId(roleExternalId);
     return ResponseEntity.ok(memberShips);
-  }
-
-  @GetMapping("/role/{teamExternalId}/{membershipExternalId}")
-  public ResponseEntity<RoleDTO> lookupRoleByMembership(@PathVariable UUID teamExternalId,
-      @PathVariable UUID memberExternalId) {
-    Role role = service.findByMembership(teamExternalId, memberExternalId).getRole();
-    return ResponseEntity.ok(new RoleDTO(role));
   }
 
 }

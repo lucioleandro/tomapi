@@ -1,6 +1,7 @@
 package br.com.ecore.tom.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.dto.RoleDTO;
 import br.com.ecore.tom.exceptions.APIExceptionUtils;
+import br.com.ecore.tom.service.MembershipService;
 import br.com.ecore.tom.service.RoleService;
 
 @RestController
@@ -23,6 +25,9 @@ public class RoleController {
 
   @Autowired
   private RoleService service;
+
+  @Autowired
+  private MembershipService membershipService;
 
   @PostMapping
   public ResponseEntity<RoleDTO> createRole(@Valid @RequestBody RoleDTO roleDTO,
@@ -37,6 +42,18 @@ public class RoleController {
   @GetMapping("/{externalId}")
   public ResponseEntity<RoleDTO> lookupByExternalId(@PathVariable UUID externalId) {
     Role role = service.findByExternalId(externalId);
+    return ResponseEntity.ok(new RoleDTO(role));
+  }
+
+  @GetMapping
+  public ResponseEntity<List<RoleDTO>> lookupAll() {
+    return ResponseEntity.ok(service.findAll());
+  }
+
+  @GetMapping("/{teamExternalId}/{memberExternalId}")
+  public ResponseEntity<RoleDTO> lookupRoleByMembership(@PathVariable UUID teamExternalId,
+      @PathVariable UUID memberExternalId) {
+    Role role = membershipService.findByMembership(teamExternalId, memberExternalId).getRole();
     return ResponseEntity.ok(new RoleDTO(role));
   }
 

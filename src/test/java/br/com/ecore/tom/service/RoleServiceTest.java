@@ -8,6 +8,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import br.com.ecore.tom.domain.Role;
+import br.com.ecore.tom.domain.dto.RoleDTO;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.repository.RoleRepository;
 
@@ -60,6 +63,18 @@ class RoleServiceTest {
     Role roleFound = service.findByExternalId(UUID.randomUUID());
 
     assertTrue(roleFound.getUuid().equals(role.getUuid()));
+  }
+
+  @Test
+  @DisplayName("Must return all roles")
+  void must_find_al_roles() {
+    ArrayList<Role> listOdRoles = new ArrayList<Role>();
+    listOdRoles.add(role);
+
+    when(repository.findAll()).thenReturn(listOdRoles);
+    List<RoleDTO> rolesFound = service.findAll();
+
+    assertTrue(rolesFound.get(0).getId().equals(role.getUuid()));
   }
 
   @Test
