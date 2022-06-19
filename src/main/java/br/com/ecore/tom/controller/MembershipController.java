@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ecore.tom.domain.Membership;
 import br.com.ecore.tom.domain.dto.MembershipDTO;
 import br.com.ecore.tom.service.MembershipService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/memberships")
@@ -23,6 +24,8 @@ public class MembershipController {
   private MembershipService service;
 
   @PatchMapping("assign/{teamExternalId}/{memberExternalId}/{roleExternalId}")
+  @ApiOperation(value = "Assign a role to a membership",
+      notes = "Given a membership defined by a team and a member and a role, assign the given role to the given membership and return its DTO")
   public ResponseEntity<MembershipDTO> assignRoleToMember(@PathVariable UUID teamExternalId,
       @PathVariable UUID memberExternalId, @PathVariable(required = false) UUID roleExternalId) {
     Membership updatedMembership =
@@ -31,6 +34,8 @@ public class MembershipController {
   }
 
   @PatchMapping("assign/{teamExternalId}/{memberExternalId}")
+  @ApiOperation(value = "Assign a default role to a membership",
+      notes = "Given a membership defined by a team and a member, assign a default role to the membership and return its DTO")
   public ResponseEntity<MembershipDTO> assignRoleToMember(@PathVariable UUID teamExternalId,
       @PathVariable UUID memberExternalId) {
     Membership updatedMembership = service.assignRole(teamExternalId, memberExternalId, null);
@@ -38,6 +43,8 @@ public class MembershipController {
   }
 
   @GetMapping("/{externalId}")
+  @ApiOperation(value = "Assign a role to a membership",
+      notes = "Find a membership by its external id and returns its DTO")
   public ResponseEntity<MembershipDTO> lookupByExternalId(@PathVariable UUID externalId) {
     Membership memberShip = service.findByExternalId(externalId);
     return ResponseEntity.ok(new MembershipDTO(memberShip));

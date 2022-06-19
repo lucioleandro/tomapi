@@ -18,6 +18,7 @@ import br.com.ecore.tom.domain.dto.RoleDTO;
 import br.com.ecore.tom.exceptions.APIExceptionUtils;
 import br.com.ecore.tom.service.MembershipService;
 import br.com.ecore.tom.service.RoleService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/roles")
@@ -30,6 +31,8 @@ public class RoleController {
   private MembershipService membershipService;
 
   @PostMapping
+  @ApiOperation(value = "Create a role",
+      notes = "Creates a role and returns the created role with its respective resource")
   public ResponseEntity<RoleDTO> createRole(@Valid @RequestBody RoleDTO roleDTO,
       UriComponentsBuilder uriBuilder) {
     Role role = roleDTO.transformToRole();
@@ -40,17 +43,22 @@ public class RoleController {
   }
 
   @GetMapping("/{externalId}")
+  @ApiOperation(value = "Find a role by its external id",
+      notes = "Finds a role by the external Id and return its DTO")
   public ResponseEntity<RoleDTO> lookupByExternalId(@PathVariable UUID externalId) {
     Role role = service.findByExternalId(externalId);
     return ResponseEntity.ok(new RoleDTO(role));
   }
 
   @GetMapping
+  @ApiOperation(value = "Find all roles", notes = "Get all roles and returns a list of its DTO's")
   public ResponseEntity<List<RoleDTO>> lookupAll() {
     return ResponseEntity.ok(service.findAll());
   }
 
   @GetMapping("/{teamExternalId}/{memberExternalId}")
+  @ApiOperation(value = "Find a role by membership",
+      notes = "Given a membership definet by a team and a member, return its associated role")
   public ResponseEntity<RoleDTO> lookupRoleByMembership(@PathVariable UUID teamExternalId,
       @PathVariable UUID memberExternalId) {
     Role role = membershipService.findByMembership(teamExternalId, memberExternalId).getRole();
