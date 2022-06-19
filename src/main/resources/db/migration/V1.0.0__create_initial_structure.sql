@@ -68,7 +68,7 @@ CREATE TABLE `membership` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `member_id` INT DEFAULT NULL,
   `team_id` INT DEFAULT NULL,
-  `role_id` INT DEFAULT NULL,
+  `role_id` INT DEFAULT 1,
   `uuid` binary(36) NOT NULL,
   CONSTRAINT `PK_membership`PRIMARY KEY (`id` ASC),
   CONSTRAINT `FK_membership_team` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`) ON DELETE Restrict ON UPDATE Restrict,
