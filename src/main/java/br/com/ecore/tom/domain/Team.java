@@ -90,7 +90,7 @@ public class Team implements Serializable, IEntity {
     if (obj == null)
       return false;
 
-    if (getClass() != obj.getClass())
+    if (!(obj instanceof Team))
       return false;
 
     Team other = (Team) obj;

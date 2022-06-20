@@ -12,7 +12,7 @@ import br.com.ecore.tom.domain.Membership;
 import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.dto.MembershipDTO;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
-import br.com.ecore.tom.integration.TeamConsumerService;
+import br.com.ecore.tom.integration.MembershipConsumerService;
 import br.com.ecore.tom.repository.MembershipRepository;
 
 @Service
@@ -22,7 +22,7 @@ public class MembershipService {
   private MembershipRepository repository;
 
   @Autowired
-  private TeamConsumerService teamConsumerService;
+  private MembershipConsumerService membershipConsumerService;
 
   @Autowired
   private RoleService roleService;
@@ -58,13 +58,24 @@ public class MembershipService {
         .orElseThrow(() -> new EntityNotFoundException(externalId, Membership.class));
   }
 
+
+  /**
+   * This method firstly tries to find a register in the database, If not found the method will try
+   * to fetch the data from the other application and save it in the database, if don’t fetch a
+   * runtime exception will be thrown
+   * 
+   * @param teamExternalId
+   * @param memberExternalId
+   * @throws EntityNotFoundException
+   * @return Optional of Membership
+   */
   public Membership findByMembership(UUID teamExternalId, UUID memberExternalId) {
     Optional<Membership> optionalMembership =
         repository.findByTeamUuidAndMemberUuid(teamExternalId, memberExternalId);
     if (optionalMembership.isPresent()) {
       return optionalMembership.get();
     }
-    teamConsumerService.fetchTeamById(teamExternalId);
+    membershipConsumerService.fetchMembership(teamExternalId, memberExternalId);
     return repository.findByTeamUuidAndMemberUuid(teamExternalId, memberExternalId)
         .orElseThrow(() -> new EntityNotFoundException(
             "Thre is no membership with this combination of team and member", Membership.class));

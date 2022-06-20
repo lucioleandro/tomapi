@@ -53,6 +53,12 @@ public class Membership implements Serializable, IEntity {
     this.team = team;
   }
 
+  public Membership(UUID uuid, Member member, Team team) {
+    this.uuid = uuid;
+    this.member = member;
+    this.team = team;
+  }
+
   public Integer getId() {
     return id;
   }
@@ -94,7 +100,7 @@ public class Membership implements Serializable, IEntity {
     if (obj == null)
       return false;
 
-    if (getClass() != obj.getClass())
+    if (!(obj instanceof Membership))
       return false;
 
     Membership other = (Membership) obj;

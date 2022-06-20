@@ -106,14 +106,16 @@ public class Member implements Serializable, IEntity {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj == null)
+    if (obj == null) {
       return false;
+    }
 
-    if (this.getClass() != obj.getClass())
+    if (!(obj instanceof Member)) {
       return false;
+    }
 
     Member other = (Member) obj;
-    return uuid.equals(other.uuid);
+    return uuid.equals(other.getUuid());
   }
 
   @Override

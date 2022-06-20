@@ -13,7 +13,8 @@ public interface MembershipRepository extends JpaRepository<Membership, Integer>
 
   List<MembershipDTO> findByRoleUuid(UUID externalId);
 
-  Optional<Membership> findByTeamUuidAndMemberUuid(UUID teamExternalID,
-      UUID memberExternalId);
+  Optional<Membership> findByTeamUuidAndMemberUuid(UUID teamExternalID, UUID memberExternalId);
+
+  List<Membership> findByTeamUuid(UUID teamExternalId);
 
 }
