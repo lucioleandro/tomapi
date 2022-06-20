@@ -18,9 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +28,7 @@ import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.Team;
 import br.com.ecore.tom.domain.dto.MembershipDTO;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
-import br.com.ecore.tom.integration.TeamConsumerService;
+import br.com.ecore.tom.integration.MembershipConsumerService;
 import br.com.ecore.tom.repository.MembershipRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,9 +45,9 @@ class MemberShipServiceTest {
 
   @Mock
   private RoleService roleService;
-
+  
   @Mock
-  private TeamConsumerService teamConsumerService;
+  private MembershipConsumerService membershipConsumerService;
 
   private Role role;
 
@@ -90,19 +88,16 @@ class MemberShipServiceTest {
   @Test
   @DisplayName("Must try fetching a membership when it is not in tom's database")
   void must_try_fetching_a_membership_when_it_is_not_in_tom_database() {
+    List<Membership> ships = new ArrayList<>();
+    ships.add(membership);
     when(repository.findByTeamUuidAndMemberUuid(any(UUID.class), any(UUID.class)))
-        .thenAnswer(new Answer<Object>() {
-          private int count = 1;
+        .thenReturn(Optional.empty());
+    
+    when(membershipConsumerService.fetchMembership(any(UUID.class), any(UUID.class)))
+    .thenReturn(ships);
 
-          public Object answer(InvocationOnMock invocation) {
-            if (count++ == 1) {
-              return Optional.empty();
-            }
-            return Optional.of(membership);
-          }
-        });
-
-    Membership membershipFound = service.findByMembership(UUID.randomUUID(), UUID.randomUUID());
+    Membership membershipFound = service
+        .findByMembership(membership.getTeam().getUuid(), membership.getMember().getUuid());
 
     assertTrue(membershipFound.getUuid().equals(membership.getUuid()));
   }
@@ -146,20 +141,16 @@ class MemberShipServiceTest {
   @Test
   @DisplayName("Must return a exception when the register is not in database nether in the other application")
   void must_throw_exception_when_member_ship_is_not_in_database_neither_in_the_other_application() {
+    List<Membership> ships = new ArrayList<>();
+    ships.add(membership);
     when(repository.findByTeamUuidAndMemberUuid(any(UUID.class), any(UUID.class)))
-        .thenAnswer(new Answer<Object>() {
-          private int count = 1;
-
-          public Object answer(InvocationOnMock invocation) {
-            if (count++ == 1) {
-              return Optional.empty();
-            }
-            return Optional.empty();
-          }
-        });
+        .thenReturn(Optional.empty());
+    
+    when(membershipConsumerService.fetchMembership(any(UUID.class), any(UUID.class)))
+    .thenReturn(new ArrayList<Membership>());
 
     assertThrows(EntityNotFoundException.class,
-        () -> service.findByMembership(UUID.randomUUID(), UUID.randomUUID()));
+        () -> service.findByMembership(membership.getTeam().getUuid(), membership.getMember().getUuid()));
   }
 
   @Test

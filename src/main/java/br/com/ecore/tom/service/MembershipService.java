@@ -77,15 +77,16 @@ public class MembershipService {
       return optionalMembership.get();
     }
     List<Membership> fetchedShips = membershipConsumerService.fetchMembership(teamExternalId, memberExternalId);
-    Membership targetShip = fetchedShips.stream()
+    List<Membership> targetShip = fetchedShips.stream()
         .filter(s -> s.getTeam().getUuid().equals(teamExternalId) 
             && s.getMember().getUuid().equals(memberExternalId))
-        .collect(Collectors.toList()).get(0);
-    if(targetShip == null) {
+        .collect(Collectors.toList());
+    
+    if(targetShip == null || targetShip.isEmpty()) {
       throw new EntityNotFoundException(
           "Thre is no membership with this combination of team and member", Membership.class);
     }
-    return targetShip;
+    return targetShip.get(0);
   }
 
   public List<MembershipDTO> findByRoleExternalId(UUID externalId) {
