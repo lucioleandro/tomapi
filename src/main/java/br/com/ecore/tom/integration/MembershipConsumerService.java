@@ -49,7 +49,7 @@ public class MembershipConsumerService {
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public void fetchMembership(UUID teamExternalId, UUID memberExternalId) {
+  public List<Membership> fetchMembership(UUID teamExternalId, UUID memberExternalId) {
     TeamConsumerDTO teamDTO = findById(teamExternalId);
     if (teamDTO == null) {
       throw new EntityNotFoundException(teamExternalId, Team.class);
@@ -66,7 +66,7 @@ public class MembershipConsumerService {
         Member member = memberService.findByExternalId(m.getUuid());
         newShips.add(new Membership(UUID.randomUUID(), member, optionalTeam.get()));
       }
-      membershipRepository.saveAll(newShips);
+      return membershipRepository.saveAll(newShips);
 
     } else {
       Member member = memberService.findByExternalId(teamDTO.getTeamLeadId());
@@ -74,7 +74,7 @@ public class MembershipConsumerService {
       team.setTeamLead(member);
       Team savedTeam = this.teamRepository.save(team);
 
-      this.fetchMemberships(teamDTO, savedTeam);
+      return this.fetchMemberships(teamDTO, savedTeam);
 
     }
   }
@@ -100,13 +100,15 @@ public class MembershipConsumerService {
         TeamConsumerDTO.class);
   }
 
-  private void fetchMemberships(TeamConsumerDTO teamDTO, Team team) {
+  private List<Membership> fetchMemberships(TeamConsumerDTO teamDTO, Team team) {
+    List<Membership> ships = new ArrayList<>();
     for (UUID memberId : teamDTO.getTeamMemberIds()) {
       Member member = memberService.findByExternalId(memberId);
       Membership newShip = new Membership(UUID.randomUUID(), member, team);
       newShip.setRole(new Role(1));
-      membershipRepository.save(newShip);
+      ships.add(membershipRepository.save(newShip));
     }
+    return ships;
   }
 
 

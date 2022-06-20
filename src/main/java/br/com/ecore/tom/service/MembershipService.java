@@ -3,11 +3,11 @@ package br.com.ecore.tom.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import br.com.ecore.tom.domain.Membership;
 import br.com.ecore.tom.domain.Role;
@@ -70,17 +70,22 @@ public class MembershipService {
    * @throws EntityNotFoundException
    * @return Optional of Membership
    */
-  @Transactional(isolation = Isolation.READ_UNCOMMITTED)
   public Membership findByMembership(UUID teamExternalId, UUID memberExternalId) {
     Optional<Membership> optionalMembership =
         repository.findByTeamUuidAndMemberUuid(teamExternalId, memberExternalId);
     if (optionalMembership.isPresent()) {
       return optionalMembership.get();
     }
-    membershipConsumerService.fetchMembership(teamExternalId, memberExternalId);
-    return repository.findByTeamUuidAndMemberUuid(teamExternalId, memberExternalId)
-        .orElseThrow(() -> new EntityNotFoundException(
-            "Thre is no membership with this combination of team and member", Membership.class));
+    List<Membership> fetchedShips = membershipConsumerService.fetchMembership(teamExternalId, memberExternalId);
+    Membership targetShip = fetchedShips.stream()
+        .filter(s -> s.getTeam().getUuid().equals(teamExternalId) 
+            && s.getMember().getUuid().equals(memberExternalId))
+        .collect(Collectors.toList()).get(0);
+    if(targetShip == null) {
+      throw new EntityNotFoundException(
+          "Thre is no membership with this combination of team and member", Membership.class);
+    }
+    return targetShip;
   }
 
   public List<MembershipDTO> findByRoleExternalId(UUID externalId) {
