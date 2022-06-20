@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import br.com.ecore.tom.domain.Membership;
 import br.com.ecore.tom.domain.Role;
@@ -69,6 +70,7 @@ public class MembershipService {
    * @throws EntityNotFoundException
    * @return Optional of Membership
    */
+  @Transactional(isolation = Isolation.READ_UNCOMMITTED)
   public Membership findByMembership(UUID teamExternalId, UUID memberExternalId) {
     Optional<Membership> optionalMembership =
         repository.findByTeamUuidAndMemberUuid(teamExternalId, memberExternalId);

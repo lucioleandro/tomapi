@@ -103,7 +103,7 @@ public class MembershipConsumerService {
   private void fetchMemberships(TeamConsumerDTO teamDTO, Team team) {
     for (UUID memberId : teamDTO.getTeamMemberIds()) {
       Member member = memberService.findByExternalId(memberId);
-      Membership newShip = new Membership(member, team);
+      Membership newShip = new Membership(UUID.randomUUID(), member, team);
       newShip.setRole(new Role(1));
       membershipRepository.save(newShip);
     }
