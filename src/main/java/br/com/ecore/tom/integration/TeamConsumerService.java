@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import br.com.ecore.tom.domain.Member;
 import br.com.ecore.tom.domain.Membership;
@@ -46,7 +47,7 @@ public class TeamConsumerService {
   }
 
 
-  @Transactional
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   public Team fetchTeamById(UUID id) {
     TeamConsumerDTO teamDTO = findById(id);
     if (teamDTO == null) {
@@ -63,7 +64,7 @@ public class TeamConsumerService {
   }
 
   // TODO: Fazer calculo de algoritmo para analisar o quanto demora pra rodar
-  @Transactional
+  @Transactional(propagation = Propagation.REQUIRED)
   public void fetchTeams() {
     List<Team> listOfteams = this.teamService.findAll();
 
@@ -86,7 +87,6 @@ public class TeamConsumerService {
     }
   }
 
-  @Transactional
   private void fetchMemberships(TeamConsumerDTO teamDTO, Team team) {
     for (UUID memberId : teamDTO.getTeamMemberIds()) {
       Member member = memberService.findByExternalId(memberId);

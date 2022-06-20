@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import br.com.ecore.tom.domain.Member;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
@@ -34,7 +35,7 @@ public class MemberConsumerService {
         restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler()).build();
   }
 
-  @Transactional
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   public Member fetchMemberById(UUID id) {
     UserConsumerDTO user = findById(id);
     if (user == null) {
@@ -44,7 +45,7 @@ public class MemberConsumerService {
   }
 
   // TODO: Fazer calculo de algoritmo para analisar o quanto demora pra rodar
-  @Transactional
+  @Transactional(propagation = Propagation.REQUIRED)
   public void fetchMembers() {
     List<Member> members = this.memberService.findAll();
 

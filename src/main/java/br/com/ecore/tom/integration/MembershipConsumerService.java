@@ -7,11 +7,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import br.com.ecore.tom.domain.Member;
 import br.com.ecore.tom.domain.Membership;
@@ -47,7 +48,7 @@ public class MembershipConsumerService {
         restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler()).build();
   }
 
-  @Transactional
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   public void fetchMembership(UUID teamExternalId, UUID memberExternalId) {
     TeamConsumerDTO teamDTO = findById(teamExternalId);
     if (teamDTO == null) {
@@ -91,9 +92,7 @@ public class MembershipConsumerService {
       membersSet.add(new Member(memberId));
     }
 
-    List<Member> membersToSave =
-        membersSet.stream().filter(team -> team.getId() == null).collect(Collectors.toList());
-    return membersToSave;
+    return membersSet.stream().filter(team -> team.getId() == null).collect(Collectors.toList());
   }
 
   private TeamConsumerDTO findById(UUID id) {
@@ -101,7 +100,6 @@ public class MembershipConsumerService {
         TeamConsumerDTO.class);
   }
 
-  @Transactional
   private void fetchMemberships(TeamConsumerDTO teamDTO, Team team) {
     for (UUID memberId : teamDTO.getTeamMemberIds()) {
       Member member = memberService.findByExternalId(memberId);
