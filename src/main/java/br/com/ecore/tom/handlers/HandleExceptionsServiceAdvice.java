@@ -1,5 +1,6 @@
 package br.com.ecore.tom.handlers;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,11 @@ public class HandleExceptionsServiceAdvice {
   @ExceptionHandler({APIException.class})
   public ResponseEntity<String> handleAPIExceptionException(APIException e) {
     return error(HttpStatus.NOT_FOUND, e);
+  }
+  
+  @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
+  public ResponseEntity<String> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e) {
+    return error(HttpStatus.CONFLICT, e);
   }
 
   @ExceptionHandler({Exception.class})
