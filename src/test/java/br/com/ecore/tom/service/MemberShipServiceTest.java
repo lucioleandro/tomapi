@@ -27,8 +27,10 @@ import br.com.ecore.tom.domain.Membership;
 import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.Team;
 import br.com.ecore.tom.domain.dto.MembershipDTO;
+import br.com.ecore.tom.domain.dto.TeamDTO;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.integration.MembershipConsumerService;
+import br.com.ecore.tom.integration.TeamConsumerService;
 import br.com.ecore.tom.repository.MembershipRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -48,6 +50,9 @@ class MemberShipServiceTest {
   
   @Mock
   private MembershipConsumerService membershipConsumerService;
+  
+  @Mock
+  private TeamConsumerService teamConsumerService;
 
   private Role role;
 
@@ -82,7 +87,7 @@ class MemberShipServiceTest {
     when(repository.findByUuid(any(UUID.class))).thenReturn(Optional.of(membership));
     Membership membershipFound = service.findByExternalId(UUID.randomUUID());
 
-    assertTrue(membershipFound.getUuid().equals(membership.getUuid()));
+    assertEquals(membershipFound.getUuid(),membership.getUuid());
   }
 
   @Test
@@ -93,13 +98,13 @@ class MemberShipServiceTest {
     when(repository.findByTeamUuidAndMemberUuid(any(UUID.class), any(UUID.class)))
         .thenReturn(Optional.empty());
     
-    when(membershipConsumerService.fetchMembership(any(UUID.class), any(UUID.class)))
+    when(membershipConsumerService.fetchMembershipsByTeam(any(UUID.class)))
     .thenReturn(ships);
 
     Membership membershipFound = service
         .findByMembership(membership.getTeam().getUuid(), membership.getMember().getUuid());
 
-    assertTrue(membershipFound.getUuid().equals(membership.getUuid()));
+    assertEquals(membershipFound.getUuid(),membership.getUuid());
   }
 
   @Test
@@ -146,7 +151,7 @@ class MemberShipServiceTest {
     when(repository.findByTeamUuidAndMemberUuid(any(UUID.class), any(UUID.class)))
         .thenReturn(Optional.empty());
     
-    when(membershipConsumerService.fetchMembership(any(UUID.class), any(UUID.class)))
+    when(membershipConsumerService.fetchMembershipsByTeam(any(UUID.class)))
     .thenReturn(new ArrayList<Membership>());
 
     assertThrows(EntityNotFoundException.class,
@@ -161,7 +166,7 @@ class MemberShipServiceTest {
     when(repository.findAll(any(PageRequest.class))).thenReturn(membershipMock);
     Page<MembershipDTO> shipsFound = service.findAll(PageRequest.of(0, 20));
 
-    assertTrue(shipsFound.getSize() == 1);
+    assertEquals(shipsFound.getSize(), 1);
     assertEquals(shipsFound.getContent().get(0).getId(), membership.getUuid());
   }
 
@@ -176,6 +181,48 @@ class MemberShipServiceTest {
 
     assertTrue(shipsFound.size() > 0);
     assertEquals(ships.get(0).getId(), membership.getUuid());
+  }
+  
+  @Test
+  @DisplayName("Must return a List of membership from the other application")
+  void must_return_a_list_of_membership_from_the_other_application() {
+    List<TeamDTO> ships = new ArrayList<>();
+    ships.add(new TeamDTO(UUID.randomUUID(), "Test team"));
+
+    when(teamConsumerService.fetchAll()).thenReturn(ships);
+    List<TeamDTO> shipsFound = service.fetchAllFromOtherApplication();
+
+    assertTrue(shipsFound.size() > 0);
+    assertEquals(shipsFound.get(0).getName(), ships.get(0).getName());
+  }
+  
+  @Test
+  @DisplayName("Must return a list of membership from the database")
+  void must_return_a_list_of_memberships_from_the_the_database() {
+    List<Membership> ships = new ArrayList<>();
+    ships.add(membership);
+
+    when(repository.findByTeamUuid(any(UUID.class))).thenReturn(ships);
+    
+    List<MembershipDTO> shipsFound = service.findByATeam(membership.getUuid());
+
+    assertTrue(shipsFound.size() > 0);
+    assertEquals(shipsFound.get(0).getId(), membership.getUuid());
+  }
+  
+  @Test
+  @DisplayName("Must return a list of membership from the other application")
+  void must_return_a_list_of_memberships_from_the_the_other_application() {
+    List<Membership> ships = new ArrayList<>();
+    ships.add(membership);
+
+    when(repository.findByTeamUuid(any(UUID.class))).thenReturn(new ArrayList<Membership>());
+    when(membershipConsumerService.fetchMembershipsByTeam(any(UUID.class))).thenReturn(ships);
+
+    List<MembershipDTO> shipsFound = service.findByATeam(membership.getUuid());
+
+    assertTrue(shipsFound.size() > 0);
+    assertEquals(shipsFound.get(0).getId(), membership.getUuid());
   }
 
   private PageImpl<Membership> pageMembershipMock() {

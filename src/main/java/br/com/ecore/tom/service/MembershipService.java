@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.ecore.tom.domain.Membership;
 import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.dto.MembershipDTO;
+import br.com.ecore.tom.domain.dto.TeamDTO;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.integration.MembershipConsumerService;
+import br.com.ecore.tom.integration.TeamConsumerService;
 import br.com.ecore.tom.repository.MembershipRepository;
 
 @Service
@@ -24,6 +26,9 @@ public class MembershipService {
 
   @Autowired
   private MembershipConsumerService membershipConsumerService;
+
+  @Autowired
+  private TeamConsumerService teamConsumerService;
 
   @Autowired
   private RoleService roleService;
@@ -54,6 +59,20 @@ public class MembershipService {
     return ships.map(MembershipDTO::new);
   }
 
+  public List<TeamDTO> fetchAllFromOtherApplication() {
+    return teamConsumerService.fetchAll();
+  }
+
+  public List<MembershipDTO> findByATeam(UUID teamExternalId) {
+    List<Membership> teams = null;
+    teams = repository.findByTeamUuid(teamExternalId);
+    if (!teams.isEmpty()) {
+      return MembershipDTO.transformToList(teams);
+    }
+    teams = membershipConsumerService.fetchMembershipsByTeam(teamExternalId);
+    return MembershipDTO.transformToList(teams);
+  }
+
   public Membership findByExternalId(UUID externalId) {
     return repository.findByUuid(externalId)
         .orElseThrow(() -> new EntityNotFoundException(externalId, Membership.class));
@@ -76,13 +95,13 @@ public class MembershipService {
     if (optionalMembership.isPresent()) {
       return optionalMembership.get();
     }
-    List<Membership> fetchedShips = membershipConsumerService.fetchMembership(teamExternalId, memberExternalId);
-    List<Membership> targetShip = fetchedShips.stream()
-        .filter(s -> s.getTeam().getUuid().equals(teamExternalId) 
-            && s.getMember().getUuid().equals(memberExternalId))
-        .collect(Collectors.toList());
-    
-    if(targetShip == null || targetShip.isEmpty()) {
+    List<Membership> fetchedShips =
+        membershipConsumerService.fetchMembershipsByTeam(teamExternalId);
+    List<Membership> targetShip =
+        fetchedShips.stream().filter(s -> s.getTeam().getUuid().equals(teamExternalId)
+            && s.getMember().getUuid().equals(memberExternalId)).collect(Collectors.toList());
+
+    if (targetShip == null || targetShip.isEmpty()) {
       throw new EntityNotFoundException(
           "Thre is no membership with this combination of team and member", Membership.class);
     }

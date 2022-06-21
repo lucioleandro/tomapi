@@ -1,6 +1,8 @@
 package br.com.ecore.tom.domain.dto;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import br.com.ecore.tom.domain.Membership;
@@ -26,6 +28,10 @@ public class MembershipDTO {
     this.team = new TeamDTO(memberShip.getTeam());
     this.role = new RoleDTO(memberShip.getRole());
   }
+  
+  public static List<MembershipDTO> transformToList(List<Membership> ships) {
+    return ships.stream().map(MembershipDTO::new).collect(Collectors.toList());
+  }
 
   public UUID getId() {
     return id;
@@ -42,5 +48,5 @@ public class MembershipDTO {
   public RoleDTO getRole() {
     return role;
   }
-
+  
 }

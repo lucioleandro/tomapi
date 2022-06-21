@@ -1,5 +1,6 @@
 package br.com.ecore.tom.integration;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,8 @@ import br.com.ecore.tom.domain.Member;
 import br.com.ecore.tom.domain.Membership;
 import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.Team;
+import br.com.ecore.tom.domain.dto.MemberDTO;
+import br.com.ecore.tom.domain.dto.TeamDTO;
 import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.service.MemberService;
 import br.com.ecore.tom.service.MembershipService;
@@ -34,6 +37,9 @@ public class TeamConsumerService {
 
   @Autowired
   private MemberService memberService;
+  
+  @Autowired
+  private MemberConsumerService memberConsumerService;
 
   @Autowired
   private MembershipService memberShipService;
@@ -45,15 +51,38 @@ public class TeamConsumerService {
     this.restTemplate =
         restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler()).build();
   }
-
-
+  
+  public List<TeamDTO> fetchAll() {
+    List<TeamDTO> teams = new ArrayList<>();
+    TeamConsumerDTO[] fetchedTeams = this.restTemplate
+        .getForEntity(API_URL + "/" + RESOURCE + "/", TeamConsumerDTO[].class).getBody();
+    
+    for(TeamConsumerDTO team : fetchedTeams) {
+      TeamConsumerDTO completedTeam = this.findById(team.getId());
+      if(completedTeam != null) {
+        TeamDTO teamDto = new TeamDTO(completedTeam.getId(), completedTeam.getName());
+        
+        Member lead = memberConsumerService.findByExternalId(completedTeam.getTeamLeadId());
+        MemberDTO leadDTO = new MemberDTO(lead);
+        teamDto.setLead(leadDTO);
+        
+        for (UUID memberId : completedTeam.getTeamMemberIds()) {
+          Member fetchedMember = memberConsumerService.findByExternalId(memberId);
+          teamDto.addMember(new MemberDTO(fetchedMember));
+        }
+        teams.add(teamDto);
+      }
+    }
+    return teams;
+  }
+  
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public Team fetchTeamById(UUID id) {
+  public Team fetchAndSaveTeamById(UUID id) {
     TeamConsumerDTO teamDTO = findById(id);
     if (teamDTO == null) {
       throw new EntityNotFoundException(id, Team.class);
     }
-    Member member = memberService.findByExternalId(teamDTO.getTeamLeadId());
+    Member member = memberConsumerService.findByExternalId(teamDTO.getTeamLeadId());
     Team team = teamDTO.transformToTeam();
     team.setTeamLead(member);
     Team savedTeam = this.teamService.create(team);
@@ -65,7 +94,7 @@ public class TeamConsumerService {
 
   // TODO: Fazer calculo de algoritmo para analisar o quanto demora pra rodar
   @Transactional(propagation = Propagation.REQUIRED)
-  public void fetchTeams() {
+  public void fetchAndSaveTeams() {
     List<Team> listOfteams = this.teamService.findAll();
 
     TeamConsumerDTO[] teams = this.restTemplate

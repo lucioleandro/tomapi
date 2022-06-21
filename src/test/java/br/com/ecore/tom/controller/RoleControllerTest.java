@@ -69,8 +69,8 @@ class RoleControllerTest {
 
   @Test
   @WithMockUser(username = "springtest")
-  @DisplayName("Must return al roles")
-  void must_return_al_roles() throws Exception {
+  @DisplayName("Must return all roles")
+  void must_return_all_roles() throws Exception {
     URI uri = new URI("/roles/");
     Role role = new Role("Developer_Test", "Develop applications");
 
