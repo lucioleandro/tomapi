@@ -41,8 +41,7 @@ class RoleServiceTest {
 
   @BeforeEach
   public void setup() {
-    this.role = new Role("Dev Test", "Dev test");
-    this.role.setUuid(UUID.randomUUID());
+    this.role = new Role(1, UUID.randomUUID(), "Dev Test", "Dev test");
   }
 
   @Test
@@ -63,6 +62,15 @@ class RoleServiceTest {
     Role roleFound = service.findByExternalId(UUID.randomUUID());
 
     assertTrue(roleFound.getUuid().equals(role.getUuid()));
+  }
+  
+  @Test
+  @DisplayName("Must return a role by its id")
+  void must_find_a_role_by_id() {
+    when(repository.findById(any(Integer.class))).thenReturn(Optional.of(role));
+    Optional<Role> roleFound = service.findById(1);
+
+    assertEquals(roleFound.get().getId(), 1);
   }
 
   @Test

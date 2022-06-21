@@ -26,6 +26,7 @@ import br.com.ecore.tom.domain.Membership;
 import br.com.ecore.tom.domain.Role;
 import br.com.ecore.tom.domain.Team;
 import br.com.ecore.tom.domain.dto.MembershipDTO;
+import br.com.ecore.tom.domain.dto.TeamDTO;
 import br.com.ecore.tom.service.MembershipService;
 
 @SpringBootTest
@@ -85,10 +86,24 @@ class MembershipControllerTest {
   @Test
   @WithMockUser(username = "springtest")
   @DisplayName("Must get a membership given an external ID")
-  void must_get_a_membership_given_a_external_id() throws Exception {
+  void must_get_a_membership_given_an_external_id() throws Exception {
     URI uri = new URI("/memberships/" + UUID.randomUUID());
 
     when(service.findByExternalId(any(UUID.class))).thenReturn(membership);
+
+    mockMvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().is(200));
+  }
+
+  @Test
+  @WithMockUser(username = "springtest")
+  @DisplayName("Must get a membership given an team_id and member ID")
+  void must_get_a_membership_given_an_Team_id_and_member_id() throws Exception {
+    URI uri = new URI(
+        "/memberships/" + membership.getTeam().getUuid() + "/" + membership.getMember().getUuid());
+
+    when(service.findByMembership(membership.getTeam().getUuid(), membership.getMember().getUuid()))
+        .thenReturn(membership);
 
     mockMvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().is(200));
@@ -108,7 +123,24 @@ class MembershipControllerTest {
     when(service.findAll(any(PageRequest.class))).thenReturn(membershipMock);
 
     mockMvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.status().is(200));
+        .andExpect(MockMvcResultMatchers.status().is(200))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.size").isNotEmpty());
+  }
+  
+  @Test
+  @WithMockUser(username = "springtest")
+  @DisplayName("Must get all memberships from the other application")
+  void must_get_all_memberships_from_the_other_application() throws Exception {
+    List<TeamDTO> teams = new ArrayList<>();
+    teams.add(new TeamDTO(UUID.randomUUID(), "Test team"));
+
+    URI uri = new URI("/memberships/fetch");
+
+    when(service.fetchAllFromOtherApplication()).thenReturn(teams);
+
+    mockMvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().is(200))
+        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id").isNotEmpty());
   }
 
   @Test
@@ -123,7 +155,8 @@ class MembershipControllerTest {
     when(service.findByRoleExternalId(any(UUID.class))).thenReturn(ships);
 
     mockMvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.status().is(200));
+        .andExpect(MockMvcResultMatchers.status().is(200))
+        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id").isNotEmpty());
   }
 
   private PageImpl<MembershipDTO> pageMembershipMock() {

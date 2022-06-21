@@ -22,6 +22,7 @@ import br.com.ecore.tom.exceptions.EntityNotFoundException;
 import br.com.ecore.tom.repository.MembershipRepository;
 import br.com.ecore.tom.repository.TeamRepository;
 import br.com.ecore.tom.service.MemberService;
+import br.com.ecore.tom.service.RoleService;
 
 @Service
 public class MembershipConsumerService {
@@ -36,6 +37,9 @@ public class MembershipConsumerService {
 
   @Autowired
   private MemberService memberService;
+  
+  @Autowired
+  private RoleService roleService;
 
   @Autowired
   private MembershipRepository membershipRepository;
@@ -49,8 +53,8 @@ public class MembershipConsumerService {
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public List<Membership> fetchMembership(UUID teamExternalId, UUID memberExternalId) {
-    TeamConsumerDTO teamDTO = findById(teamExternalId);
+  public List<Membership> fetchMembershipsByTeam(UUID teamExternalId) {
+    TeamConsumerDTO teamDTO = findTeamById(teamExternalId);
     if (teamDTO == null) {
       throw new EntityNotFoundException(teamExternalId, Team.class);
     }
@@ -95,21 +99,21 @@ public class MembershipConsumerService {
     return membersSet.stream().filter(team -> team.getId() == null).collect(Collectors.toList());
   }
 
-  private TeamConsumerDTO findById(UUID id) {
+  private TeamConsumerDTO findTeamById(UUID id) {
     return this.restTemplate.getForObject(API_URL + "/" + RESOURCE + "/" + id,
         TeamConsumerDTO.class);
   }
 
   private List<Membership> fetchMemberships(TeamConsumerDTO teamDTO, Team team) {
     List<Membership> ships = new ArrayList<>();
+    Role role = roleService.findById(1).get();
     for (UUID memberId : teamDTO.getTeamMemberIds()) {
       Member member = memberService.findByExternalId(memberId);
       Membership newShip = new Membership(UUID.randomUUID(), member, team);
-      newShip.setRole(new Role(1));
+      newShip.setRole(role);
       ships.add(membershipRepository.save(newShip));
     }
     return ships;
   }
-
 
 }

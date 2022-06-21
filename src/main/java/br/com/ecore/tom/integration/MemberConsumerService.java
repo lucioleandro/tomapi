@@ -34,6 +34,14 @@ public class MemberConsumerService {
     this.restTemplate =
         restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler()).build();
   }
+  
+  public Member findByExternalId(UUID id) {
+    UserConsumerDTO user = findById(id);
+    if (user == null) {
+      throw new EntityNotFoundException(id, Member.class);
+    }
+    return user.transformToMember();
+  }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public Member fetchMemberById(UUID id) {
