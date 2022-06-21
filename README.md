@@ -51,7 +51,13 @@ You can access Swagger documentation available on: http://localhost:8080/tomapi/
 
 **Teste a API no postman clicando no botão abaixo**
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/ddc2195fc3e71910b042?action=collection%2Fimport)
+For 8080 port if you want to test the API on container
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/87875aca5b0d576c0a22?action=collection%2Fimport)
+
+For 9000 if you want to test it locally
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6965dc7679dcaa735523?action=collection%2Fimport)
 
 
 
