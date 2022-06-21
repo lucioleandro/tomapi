@@ -63,6 +63,15 @@ public class MembershipService {
     return teamConsumerService.fetchAll();
   }
 
+  /**
+   * This method firstly tries to find a register in the database, If not found the method will try
+   * to fetch the data from the other application and save it in the database, if don’t fetch a
+   * runtime exception will be thrown
+   * 
+   * @param teamExternalId
+   * @throws EntityNotFoundException
+   * @return Optional of Membership
+   */
   public List<MembershipDTO> findByATeam(UUID teamExternalId) {
     List<Membership> teams = null;
     teams = repository.findByTeamUuid(teamExternalId);

@@ -37,6 +37,10 @@ public class MembershipController {
   @PatchMapping("assign/{teamExternalId}/{memberExternalId}")
   @ApiOperation(value = "Assign a default role to a membership",
       notes = "Given a membership defined by a team and a member, assign a default role to the membership and return its DTO")
+  /**
+   * I have decided to repeat and handle this endpoint with one less parameter to avoid use
+   * queryParameters, so that, the API the API is not exposed by params on URL.
+   */
   public ResponseEntity<MembershipDTO> assignRoleToMember(@PathVariable UUID teamExternalId,
       @PathVariable UUID memberExternalId) {
     Membership updatedMembership = service.assignRole(teamExternalId, memberExternalId, null);
